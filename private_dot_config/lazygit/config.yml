@@ -1,0 +1,44 @@
+# notARepository: "quit"
+git:
+  overrideGpg: true
+os:
+  editPreset: nvim
+gui:
+  showBottomLine: true
+  nerdFontsVersion: "3"
+  border: rounded
+  theme:
+    activeBorderColor:
+      - "#00ff00" # green
+      - "bold"
+    selectedLineBgColor:
+      - "#5f8700"
+    selectedRangeBgColor:
+      - "#000000" # black
+    unstagedChangesColor:
+      - "#ff0000" # red
+    commitHashColor:
+      - "#ffff00" # yellow
+    diffAddedColor:
+      - "#00ff00" # green
+    diffRemovedColor:
+      - "#ff0000" # red
+    diffContextColor:
+      - "default" # Keep as-is unless you want to pick a specific color
+    diffHighlightAddedColor:
+      - "bold"
+      - "#00ff00" # green
+    diffHighlightRemovedColor:
+      - "bold"
+      - "#ff0000" # red
+    searchingActiveBorderColor:
+      - "#000000"
+      - "bold"
+    optionsTextColor:
+      - "#ffd7af"
+    inactiveBorderColor:
+    defaultFgColor:
+    cherryPickedCommitFgColor:
+      - "#ffd7af"
+    cherryPickedCommitBgColor:
+      - "#ff8787"

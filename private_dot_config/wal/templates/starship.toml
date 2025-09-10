@@ -1,0 +1,152 @@
+# Get editor completions based on the config schema
+# "$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$directory\
+$git_branch\
+$git_metrics\
+$git_state\
+$git_status\
+$c\
+$cmake\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$gleam\
+$golang\
+$haskell\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$python\
+$ruby\
+$rust\
+$scala\
+$swift\
+$typst\
+$zig\
+$buf\
+$fill\
+$cmd_duration\
+$time\
+$jobs\
+$line_break\
+$character
+"""
+
+command_timeout = 500
+scan_timeout = 30
+add_newline = true
+
+[os]
+disabled = false
+
+[os.symbols]
+Arch = "  "
+
+[fill]
+symbol = "·"
+style = "{color8}"
+
+[username]
+style_user = "{color2} bold"
+style_root = "{color1} bold" 
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = 'on [$hostname]({color5} bold) '
+trim_at = "."
+disabled = false
+
+[directory]
+style = "{color6} bold italic"
+read_only = "  "
+truncation_length = 10
+truncate_to_repo = true
+
+[character]
+success_symbol = "[➜]({color2} bold)"
+error_symbol = "[✗]({color1} bold)"
+
+[git_branch]
+symbol = " "
+style = "{color1} bold"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "{color1} bold"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+stashed = "[${{count}}*]({color2})"
+modified = "[${{count}}+]({color3})"
+deleted =  "[${{count}}-]({color1})"
+conflicted =  "[${{count}}~]({color1})"
+ahead = "⇡${{count}}"
+behind = "⇣${{count}}"
+untracked = "[${{count}}?]({color4})"
+staged = "[${{count}}+]({color2})"
+
+[git_state]
+style = "{color3} bold"
+format = "[$state( $progress_current/$progress_total) ]($style)"
+rebase = "rebase"
+merge = "merge" 
+revert = "revert"
+cherry_pick = "cherry"
+bisect = "bisect"
+am = "am"
+am_or_rebase = "am/rebase"
+
+[git_metrics]
+added_style = "{color2} bold"
+deleted_style = "{color1} bold"
+format = '( \(([-$added]($added_style)) ([-$deleted]($deleted_style))\) )({color7} bold)'
+disabled = false
+
+[jobs]
+symbol = ""
+style = "{color1} bold"
+number_threshold = 1
+format = "[$symbol]($style)"
+
+[cmd_duration]
+min_time = 4
+show_milliseconds = false
+disabled = false
+style = "{color1} bold italic"
+format = ' took [$duration]($style)'
+
+[memory_usage]
+symbol = " "
+
+[nodejs]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "{color2}"
+
+[golang]
+symbol = " "
+format = ' via [$symbol($version )($mod_version )]($style)'
+style = "{color6}"
+
+[python]
+symbol = " "
+style = "{color3}"
+
+[time]
+disabled = false
+style = "{color6} bold"
+format = ' [\[$time\]]($style)'
+time_format = '%I:%M %p'
+utc_time_offset = '+8'
