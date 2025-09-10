@@ -1,16 +1,79 @@
-source "$HOME/.config/zsh/function.zsh"
-source "$HOME/.config/zsh/aliases.zsh"
-source "$HOME/.config/zsh/exports.zsh"
-source "$HOME/.config/zsh/zopts.zsh"
+# 基础环境配置
+export LANG=zh_CN.UTF-8
+export EDITOR=nvim
+export VISUAL=nvim
+export MANPAGER='nvim +Man!'
+export SUDO_EDITOR=nvim
+export GITHUB_USERNAME=pppobear
 
-# sources.zsh needs function.zsh to be loaded to call the plugin function
-# And zopts need to sourced before vim.zsh to setup vim-keybinds
-source "$HOME/.config/zsh/sources.zsh"
-source "$HOME/.config/zsh/fzf.zsh"
+# 路径配置
+export GOPATH="$HOME/go"
+export PATH="$HOME/.local/bin:$HOME/scripts:$PATH:$(go env GOPATH)/bin:$HOME/.cargo/bin"
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
-# nvm
+# XDG 目录
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+
+# 历史配置
+HISTFILE=~/.zsh_history
+HISTSIZE=20000
+SAVEHIST=20000
+
+# Zsh 选项
+setopt INC_APPEND_HISTORY SHARE_HISTORY INTERACTIVE_COMMENTS NOMATCH AUTO_CD AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS PUSHD_SILENT CORRECT CDABLE_VARS EXTENDED_GLOB
+setopt LIST_PACKED LIST_ROWS_FIRST MENU_COMPLETE AUTO_LIST COMPLETE_IN_WORD
+
+# 自动补全
+autoload -Uz compinit; compinit -C
+zmodload zsh/complist
+zstyle ':completion:*' menu select use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zcompcache"
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# 按键绑定
+bindkey -e
+
+# Aliases
+alias v=nvim
+alias ..='cd ..' ...='cd ../..'
+alias ls='eza --all --icons=always --color=always --group-directories-first'
+alias ll='eza -al --no-time --no-user --no-permissions --no-filesize --icons=always --color=always --group-directories-first'
+alias cp="cp -i -v" mv='mv -i -v' rm='rm -i -v'
+alias gs='git status' ga='git add' gc='git commit' gp='git push' gP='git pull'
+alias up='paru -Syu' yeet="sudo pacman -Rns"
+
+
+# 有用的函数
+lfcd() { cd "$(command lf -print-last-dir "$@")" || exit; }
+y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd" || exit
+  fi
+  rm -f -- "$tmp"
+}
+
+# FZF 配置
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# 加载插件和外部工具
+eval "$(starship init zsh)"
+source <(fzf --zsh)
+
+# Pywal colors (如果存在)
+[ -f ~/.cache/wal/sequences ] && (cat ~/.cache/wal/sequences &)
+[ -f ~/.cache/wal/colors.sh ] && source ~/.cache/wal/colors.sh
+
+# NVM (如果存在)
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-#
+# rbw ssh
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/rbw/ssh-agent-socket"
 
