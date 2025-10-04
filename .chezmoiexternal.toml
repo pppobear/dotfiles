@@ -10,18 +10,6 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-[".oh-my-zsh/custom/plugins/fast-syntax-highlighting"]
-    type = "archive"
-    url = "https://github.com/zdharma-continuum/fast-syntax-highlighting/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-[".oh-my-zsh/custom/themes/powerlevel10k"]
-    type = "archive"
-    url = "https://github.com/romkatv/powerlevel10k/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
 [".config/nvim"]
     type = "git-repo"
     url = "git@github.com:pppobear/lazyvim-starter.git"
