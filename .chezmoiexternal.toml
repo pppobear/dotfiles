@@ -15,3 +15,24 @@
     url = "git@github.com:pppobear/lazyvim-starter.git"
     refreshPeriod = "1h"
 
+[".oh-my-zsh/custom/plugins/zsh-256color"]
+    type = "archive"
+    url = "https://github.com/chrissicool/zsh-256color/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
