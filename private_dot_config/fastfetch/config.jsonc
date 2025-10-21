@@ -106,15 +106,18 @@
       "key": "   Colors",
       "keyColor": "green",
       "block": {
-        "range": [1, 6],
+        "range": [
+          1,
+          6
+        ],
       },
     },
-    //{
-    //  "type": "disk",
-    //  "key": "  󰋊 Disk",
-    //  "keyColor": "blue",
-    //  "outputColor": "bright_",
-    //},
+    {
+      "type": "disk",
+      "key": "  󰋊 Disk",
+      "keyColor": "blue",
+      "outputColor": "bright_",
+    },
     {
       "type": "custom",
       "format": "└──────────────────────────────────────────────────────────────────────┘",

@@ -1,0 +1,21 @@
+{{- if eq .chezmoi.os "darwin" }}
+# Ignore Linux-specific files on macOS
+platform/linux.zsh
+{{- else if eq .chezmoi.os "linux" }}
+# Ignore macOS-specific files on Linux
+platform/macos.zsh
+{{- end }}
+
+# Ignore old configuration files (remove these lines after migration is complete)
+# aliases.zsh
+# exports.zsh
+# function.zsh
+# plugin.zsh
+# sources.zsh
+# user.zsh
+# fzf.zsh
+
+# Ignore documentation and test files (optional - uncomment if you don't want to track them)
+# README.md
+# MIGRATION.md
+# test-config.sh

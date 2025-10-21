@@ -1,39 +1,105 @@
 local wezterm = require("wezterm")
-local config = wezterm.config_builder()
+local act = wezterm.action
 
-config = {
-	-- Check colorscheme at wezterm website https://wezfurlong.org/wezterm/colorschemes/index.html
-	color_scheme = "carbonfox",
-	-- Tabs are enabled by default
-	enable_tab_bar = false,
-	font_size = 12.0,
-	-- Disable wayland support, Somewhat broken on hyprland, Works with -git
-	enable_wayland = false,
-	font = wezterm.font("JetBrainsMono Nerd Font"),
-	automatically_reload_config = true,
-	enable_scroll_bar = false,
-	front_end = "WebGpu",
-	warn_about_missing_glyphs = false,
+local config = {
+	color_scheme = "Catppuccin Mocha",
+	font = wezterm.font("Maple Mono NF CN Medium"),
+	font_size = 15,
 
-	-- Blur and opacity
-	macos_window_background_blur = 40,
-	window_background_opacity = 1.0,
-	-- Remove the window decorations
+	use_fancy_tab_bar = false,
+	hide_tab_bar_if_only_one_tab = true,
 	window_decorations = "RESIZE",
-	keys = {
-		-- {
-		-- 	key = "f",
-		-- 	mods = "CTRL",
-		-- 	action = wezterm.action.ToggleFullScreen,
-		-- },
+	show_new_tab_button_in_tab_bar = false,
+	window_padding = {
+		left = 20,
+		right = 20,
+		top = 20,
+		bottom = 5,
 	},
-	mouse_bindings = {
-		-- Ctrl-click will open the link under the mouse cursor
-		{
-			event = { Up = { streak = 1, button = "Left" } },
-			mods = "CTRL",
-			action = wezterm.action.OpenLinkAtMouseCursor,
-		},
+
+	window_background_opacity = 0.9,
+	macos_window_background_blur = 70,
+	adjust_window_size_when_changing_font_size = false,
+
+	leader = { key = "]", mods = "CMD" },
+}
+
+config.keys = {
+	-- CMD + ], followed by 'r' will put us in resize-pane
+	-- mode until we cancel that mode.
+	{
+		key = "r",
+		mods = "LEADER",
+		action = act.ActivateKeyTable({
+			name = "resize_pane",
+			one_shot = false,
+		}),
+	},
+
+	-- CMD + ], followed by 'a' will put us in activate-pane
+	-- mode until we press some other key or until 1 second (1000ms)
+	-- of time elapses
+	{
+		key = "a",
+		mods = "LEADER",
+		action = act.ActivateKeyTable({
+			name = "activate_pane",
+			timeout_milliseconds = 1000,
+		}),
+	},
+
+	{
+		key = "-",
+		mods = "LEADER",
+		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "\\",
+		mods = "LEADER",
+		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 }
+
+config.key_tables = {
+	-- Defines the keys that are active in our resize-pane mode.
+	-- Since we're likely to want to make multiple adjustments,
+	-- we made the activation one_shot=false. We therefore need
+	-- to define a key assignment for getting out of this mode.
+	-- 'resize_pane' here corresponds to the name="resize_pane" in
+	-- the key assignments above.
+	resize_pane = {
+		{ key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+
+		{ key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+
+		{ key = "UpArrow", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+
+		{ key = "DownArrow", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+
+		-- Cancel the mode by pressing escape
+		{ key = "Escape", action = "PopKeyTable" },
+	},
+
+	-- Defines the keys that are active in our activate-pane mode.
+	-- 'activate_pane' here corresponds to the name="activate_pane" in
+	-- the key assignments above.
+	activate_pane = {
+		{ key = "LeftArrow", action = act.ActivatePaneDirection("Left") },
+		{ key = "h", action = act.ActivatePaneDirection("Left") },
+
+		{ key = "RightArrow", action = act.ActivatePaneDirection("Right") },
+		{ key = "l", action = act.ActivatePaneDirection("Right") },
+
+		{ key = "UpArrow", action = act.ActivatePaneDirection("Up") },
+		{ key = "k", action = act.ActivatePaneDirection("Up") },
+
+		{ key = "DownArrow", action = act.ActivatePaneDirection("Down") },
+		{ key = "j", action = act.ActivatePaneDirection("Down") },
+	},
+}
+
 return config

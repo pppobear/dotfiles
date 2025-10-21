@@ -13,23 +13,7 @@ gui:
       - "bold"
     selectedLineBgColor:
       - "#5f8700"
-    selectedRangeBgColor:
-      - "#000000" # black
     unstagedChangesColor:
-      - "#ff0000" # red
-    commitHashColor:
-      - "#ffff00" # yellow
-    diffAddedColor:
-      - "#00ff00" # green
-    diffRemovedColor:
-      - "#ff0000" # red
-    diffContextColor:
-      - "default" # Keep as-is unless you want to pick a specific color
-    diffHighlightAddedColor:
-      - "bold"
-      - "#00ff00" # green
-    diffHighlightRemovedColor:
-      - "bold"
       - "#ff0000" # red
     searchingActiveBorderColor:
       - "#000000"
@@ -37,7 +21,9 @@ gui:
     optionsTextColor:
       - "#ffd7af"
     inactiveBorderColor:
+      - "#808080" # gray
     defaultFgColor:
+      - "default"
     cherryPickedCommitFgColor:
       - "#ffd7af"
     cherryPickedCommitBgColor:
