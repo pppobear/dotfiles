@@ -1,0 +1,6 @@
+# oh-my-zsh cache files (dynamically generated)
+.oh-my-zsh/cache/
+
+# Common dynamic files that shouldn't be managed
+.zsh_history
+.zsh_sessions/

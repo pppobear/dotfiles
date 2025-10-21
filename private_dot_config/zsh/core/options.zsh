@@ -35,3 +35,7 @@ setopt EXTENDED_GLOB           # Extended globbing
 
 # Key bindings (Emacs mode)
 bindkey -e
+
+# Configure word boundaries for Ctrl+W
+# Remove '/' so that Ctrl+W stops at path separators (/a/b/c → /a/b/)
+WORDCHARS=${WORDCHARS//\/}
