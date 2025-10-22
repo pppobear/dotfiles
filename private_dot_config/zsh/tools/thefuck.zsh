@@ -1,7 +1,11 @@
 #!/usr/bin/env zsh
-# thefuck integration (command correction)
+# thefuck integration (command correction) - Lazy loaded for faster startup
 
-# Initialize thefuck with alias 'fk'
+# Lazy load thefuck when fk is called
 if command -v thefuck >/dev/null 2>&1; then
-  eval "$(thefuck --alias fk)"
+  fk() {
+    unset -f fk
+    eval "$(thefuck --alias fk)"
+    fk "$@"
+  }
 fi
