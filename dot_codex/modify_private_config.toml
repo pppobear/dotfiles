@@ -1,3 +1,6 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $lines := .chezmoi.stdin | splitList "\n" -}}
+{{- $remainingLines := slice $lines 10 -}}
 model_provider = "yescode"
 model = "gpt-5-codex"
 model_reasoning_effort = "high"
@@ -7,3 +10,5 @@ name = "yescode"
 base_url = "https://co.yes.vg/team/v1"
 wire_api = "responses"
 env_key = "YESCODE_API_KEY"
+
+{{ join "\n" $remainingLines }}
