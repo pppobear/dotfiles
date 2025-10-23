@@ -40,11 +40,5 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 [ -f ~/.cache/wal/sequences ] && (cat ~/.cache/wal/sequences &)
 [ -f ~/.cache/wal/colors.sh ] && source ~/.cache/wal/colors.sh
 
-# Custom plugin function, defined in function.zsh
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zdharma-continuum/fast-syntax-highlighting"
-# zplug "zsh-users/zsh-syntax-highlighting"
-# zplug "marlonrichert/zsh-autocomplete"
-
 # compinit is already handled in plugins/zsh-plugins.zsh - removed duplicate
 # fpath for zsh-completions is also already set there

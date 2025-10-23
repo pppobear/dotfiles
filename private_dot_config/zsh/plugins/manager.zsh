@@ -1,46 +1,37 @@
 #!/usr/bin/env zsh
 # Plugin manager setup
 
-# Custom plugin function (zplug-like)
+# Source the defer utility, which is managed by chezmoi external
+source "${ZDOTDIR:-$HOME/.config/zsh}/plugins/zsh-defer/zsh-defer.plugin.zsh"
+
+# Custom plugin function to source plugins (assumes plugins are already installed by chezmoi)
 zplug() {
   local repo="$1"
+  local lazy_trigger="$2"
   local plugin_dir="${ZDOTDIR:-$HOME/.config/zsh}/plugins/${repo##*/}"
-  local plugin_file="${plugin_dir}/${repo##*/}.plugin.zsh"
+  local plugin_file=""
 
-  # Create plugins directory if it doesn't exist
-  [ ! -d "${ZDOTDIR:-$HOME/.config/zsh}/plugins" ] && mkdir -p "${ZDOTDIR:-$HOME/.config/zsh}/plugins"
-
-  # Clone plugin if it doesn't exist
-  if [ ! -d "$plugin_dir" ]; then
-    echo "Installing $repo..."
-    git clone --depth=1 "https://github.com/${repo}.git" "$plugin_dir" 2>/dev/null
+  # Find the plugin entry point
+  if [ -f "${plugin_dir}/${repo##*/}.plugin.zsh" ]; then
+    plugin_file="${plugin_dir}/${repo##*/}.plugin.zsh"
+  elif [ -f "${plugin_dir}/${repo##*/}.zsh" ]; then
+    plugin_file="${plugin_dir}/${repo##*/}.zsh"
+  elif [ -f "${plugin_dir}/init.zsh" ]; then
+    plugin_file="${plugin_dir}/init.zsh"
   fi
 
-  # Source the plugin
-  if [ -f "$plugin_file" ]; then
-    source "$plugin_file"
-  elif [ -f "${plugin_dir}/${repo##*/}.zsh" ]; then
-    source "${plugin_dir}/${repo##*/}.zsh"
-  elif [ -f "${plugin_dir}/init.zsh" ]; then
-    source "${plugin_dir}/init.zsh"
+  # Source the plugin immediately or defer it
+  if [ -n "$plugin_file" ]; then
+    if [ -n "$lazy_trigger" ]; then
+      zsh-defer source "$plugin_file"
+      zsh-defer-lazy "$lazy_trigger"
+    else
+      source "$plugin_file"
+    fi
   fi
 }
 
-# Update all plugins
+# Update all plugins (now managed by chezmoi)
 zplug-update() {
-  local plugin_dir="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
-
-  if [ ! -d "$plugin_dir" ]; then
-    echo "No plugins installed"
-    return 1
-  fi
-
-  for dir in "$plugin_dir"/*; do
-    if [ -d "$dir/.git" ]; then
-      echo "Updating $(basename "$dir")..."
-      (cd "$dir" && git pull --quiet)
-    fi
-  done
-
-  echo "All plugins updated!"
+  echo "Plugins are now managed by 'chezmoi'. Run 'chezmoi update' to update them."
 }

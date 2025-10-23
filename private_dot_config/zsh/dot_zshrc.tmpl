@@ -24,6 +24,9 @@ for tool_config in "$ZDOTDIR"/tools/*.zsh; do
   [ -f "$tool_config" ] && source "$tool_config"
 done
 
+# Load plugin manager
+[ -f "$ZDOTDIR/plugins/manager.zsh" ] && source "$ZDOTDIR/plugins/manager.zsh"
+
 # Load plugins
 [ -f "$ZDOTDIR/plugins/zsh-plugins.zsh" ] && source "$ZDOTDIR/plugins/zsh-plugins.zsh"
 
