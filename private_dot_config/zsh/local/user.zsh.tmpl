@@ -30,6 +30,9 @@
 # YesCode Token
 export YESCODE_API_KEY={{ (rbwFields "co.yes.vg").api_key.value }}
 export ANTHROPIC_AUTH_TOKEN=$YESCODE_API_KEY
+export GOOGLE_GEMINI_BASE_URL=https://co.yes.vg/team/gemini
+export GEMINI_API_KEY=$YESCODE_API_KEY
 
 alias claude="{{- .chezmoi.homeDir -}}/.claude/local/claude"
+export GOOGLE_CLOUD_PROJECT="gen-lang-client-0866326289"
 
