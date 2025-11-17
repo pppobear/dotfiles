@@ -45,5 +45,11 @@ export PATH="$PATH:$GOPATH/bin"
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
 
+# Snap (仅在未包含时追加)
+case ":$PATH:" in
+  *":/snap/bin:"*) ;;
+  *) export PATH="$PATH:/snap/bin" ;;
+esac
+
 # Bat theme
 export BAT_THEME="Catppuccin Mocha"

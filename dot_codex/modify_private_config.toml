@@ -1,6 +1,6 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $lines := .chezmoi.stdin | splitList "\n" -}}
-{{- $remainingLines := slice $lines 10 -}}
+{{- $remainingLines := slice $lines (min (len $lines) 10) -}}
 model_provider = "yescode"
 model = "gpt-5-codex"
 model_reasoning_effort = "high"
