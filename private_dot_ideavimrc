@@ -1,0 +1,151 @@
+let mapleader = "\<Space>"
+
+""" General settings ------------------------
+set hls
+set number relativenumber
+set scrolloff=5
+set idearefactormode=keep
+set incsearch
+set ideajoin
+set keep-english-in-normal-and-restore-in-insert
+
+""" Plugins  --------------------------------
+set which-key
+set quickscope
+set surround
+set multiple-cursors
+set commentary
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set exchange
+set NERDTree
+set highlightedyank
+set argtextobj
+set ideajoin
+set notimeout
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>,`:'"
+
+""" System Clipboard ------------------------
+no <leader>y "+y
+no <leader>Y "+Y
+no <leader>p "+p
+no <leader>P "+P
+no <leader>d "+d
+no <leader>D "+D
+no <leader>c "+c
+no <leader>C "+C
+
+" <C-n> seems to me as a better solution than <M-n>,
+" but we should finally support vim-visual-multi because vim-multiple-cursors is deprecated now
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap <C-j> <Plug>SkipOccurrence
+xmap <C-j> <Plug>SkipOccurrence
+nmap <C-p> <Plug>RemoveOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+
+""" my mappings -----------------------------
+" map 'i' to 'q' and 'Q' to '"', only for visual mode
+vn iq i'
+vn aq a'
+vn iQ i"
+vn aQ a"
+
+" java doc
+map K :action QuickJavaDoc<CR>
+" Easymotion s
+map s <plug>(easymotion-bd-f)
+
+" incr/decr selection
+no <C-A-k> :action EditorSelectWord<CR>
+no <C-A-j> :action EditorUnSelectWord<CR>
+
+no <leader>L <plug>(easymotion-bd-jk)
+let g:WhichKeyDesc_EasyMotion_ToLine = "<leader>L EasyMotion to line"
+
+no <leader>R :action RenameElement<CR>
+let g:WhichKeyDesc_RenameElement = "<leader>R rename element"
+
+no <leader>e :action ActivateProjectToolWindow<CR>
+let g:WhichKeyDesc_ActivateProjectToolWindow = "<leader>e activate project tool window"
+
+no <leader>sd :action QuickImplementations<CR>
+no <leader>shc :action CallHierarchy<CR>
+no <leader>sht :action TypeHierarchy<CR>
+no <leader>shm :action MethodHierarchy<CR>
+no <leader>su :action FindUsages<CR>
+no <leader>se :action ShowErrorDescription<CR>
+no <leader>st :action ExpressionTypeInfo<CR>
+no <leader>sp :action ParameterInfo<CR>
+no <leader>sm :action ShowUmlDiagramPopup<CR>
+let g:WhichKeyDesc_ShowInfo = "<leader>s show info"
+let g:WhichKeyDesc_QuickImplementations = "<leader>sd quick implementations"
+let g:WhichKeyDesc_Hierarchy = "<leader>sh hierarchy"
+let g:WhichKeyDesc_CallHierarchy = "<leader>shc call hierarchy"
+let g:WhichKeyDesc_TypeHierarchy = "<leader>sht type hierarchy"
+let g:WhichKeyDesc_MethodHierarchy = "<leader>shm method hierarchy"
+let g:WhichKeyDesc_FindUsages = "<leader>su find usages"
+let g:WhichKeyDesc_ShowErrorDescription = "<leader>se show error description"
+let g:WhichKeyDesc_ExpressionTypeInfo = "<leader>st expression type info"
+let g:WhichKeyDesc_ParameterInfo = "<leader>sp parameter info"
+let g:WhichKeyDesc_ShowUmlDiagram = "<leader>sm show uml diagram"
+
+no <leader>cs :action FileStructurePopup<CR>
+no <leader>cf :action ReformatCode<CR>
+no <leader>ci :action Inline<CR>
+no <leader>cp :action EncapsulateFields<CR>
+no <leader>cem :action ExtractMethod<CR>
+no <leader>cei :action ExtractInterface<CR>
+no <leader>cev :action IntroduceVariable<CR>
+no <leader>cec :action IntroduceConstant<CR>
+no <leader>cep :action IntroduceParameter<CR>
+no <leader>cef :action IntroduceField<CR>
+let g:WhichKeyDesc_Code = "<leader>c code"
+let g:WhichKeyDesc_FileStructurePopup = "<leader>cs file structure popup"
+let g:WhichKeyDesc_ReformatCode = "<leader>cf reformat code"
+let g:WhichKeyDesc_Inline = "<leader>ci inline"
+let g:WhichKeyDesc_EncapsulateFields = "<leader>cp encapsulate fields"
+let g:WhichKeyDesc_Extract = "<leader>ce extract"
+
+""" StringManipulation ----------------------
+let g:WhichKeyDesc_StringManipulation = "<leader>m StringManipulation"
+no <leader>mc :action StringManipulation.ToCamelCase<CR>
+no <leader>ms :action StringManipulation.ToSnakeCase<CR>
+no <leader>mk :action StringManipulation.ToKebabCase<CR>
+no <leader>mp :action StringManipulation.ToPascalCase<CR>
+no <leader>mS :action StringManipulation.ToScreamingSnakeCase<CR>
+let g:WhichKeyDesc_StringManipulation_ToCamelCase = "<leader>mc to camelCase"
+let g:WhichKeyDesc_StringManipulation_ToSnakeCase = "<leader>ms to snake_case"
+let g:WhichKeyDesc_StringManipulation_ToKebabCase = "<leader>mk to kebab-case"
+let g:WhichKeyDesc_StringManipulation_ToPascalCase = "<leader>mp to PascalCase"
+let g:WhichKeyDesc_StringManipulation_ToScreamingSnakeCase = "<leader>mS to SCREAMING_SNAKE_CASE"
+
+
+no gi :action GotoImplementation<CR>
+let g:WhichKeyDesc_GotoImplementation = "gi go to implementation"
+
+
+""" Tabs ------------------------------------
+nn L :action NextTab<CR>
+nn H :action PreviousTab<CR>
+nn <leader>bd :action CloseEditor<CR>
+nn <leader>bo :action CloseEditorOtherTabs<CR>
+nn <leader>bl :action CloseAllToTheLeft<CR>
+nn <leader>br :action CloseAllToTheRight<CR>
+nn <leader>bm :action CloseAllUnmodifiedEditors<CR>
+nn <leader>be :action Switcher<CR>
+nn <leader>bp :action PinActiveTabToggle<CR>
+nn <leader>bP :action CloseAllUnpinnedEditors<CR>
+
+""" Others ----------------------------------
+nn <C-c> :nohlsearch<CR>
+nn <C-z> :action ToggleDistractionFreeMode<CR>
+nn <leader>x :action HideAllWindows<CR>
+let g:WhichKeyDesc_HideAllWindows = "<leader>x hide all windows"
+
+""" NERDTree --------------------------------
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
