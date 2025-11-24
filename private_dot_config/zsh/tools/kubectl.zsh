@@ -3,6 +3,10 @@
 
 # kubectl completion
 if command -v kubectl >/dev/null 2>&1; then
+  # Ensure compinit is loaded before kubectl completion
+  autoload -Uz compinit
+  compinit
+
   # Cache completion to avoid regenerating on every startup
   _kubectl_completion="${ZDOTDIR:-$HOME/.config/zsh}/.kubectl_completion"
   if [[ ! -f "$_kubectl_completion" ]] || [[ $(find "$_kubectl_completion" -mtime +7 2>/dev/null) ]]; then
