@@ -2,7 +2,7 @@
 {{- $lines := .chezmoi.stdin | splitList "\n" -}}
 {{- $remainingLines := slice $lines (min (len $lines) 10) -}}
 model_provider = "yescode"
-model = "gpt-5-codex"
+model = "gpt-5.1-codex-max"
 model_reasoning_effort = "high"
 
 [model_providers.yescode]

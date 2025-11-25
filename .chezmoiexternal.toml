@@ -43,4 +43,8 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+[".local/share/tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm"
+    refreshPeriod = "168h"
 
