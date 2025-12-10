@@ -29,15 +29,9 @@ set notimeout
 let g:argtextobj_pairs="[:],(:),<:>,`:'"
 
 """ System Clipboard ------------------------
-no <leader>y "+y
-no <leader>Y "+Y
-no <leader>p "+p
-no <leader>P "+P
-no <leader>d "+d
-no <leader>D "+D
-no <leader>c "+c
-no <leader>C "+C
+set clipboard=unnamedplus
 
+""" multiple-cursors -----------------------
 " <C-n> seems to me as a better solution than <M-n>,
 " but we should finally support vim-visual-multi because vim-multiple-cursors is deprecated now
 nmap <C-n> <Plug>NextWholeOccurrence
@@ -131,14 +125,23 @@ let g:WhichKeyDesc_GotoImplementation = "gi go to implementation"
 """ Tabs ------------------------------------
 nn L :action NextTab<CR>
 nn H :action PreviousTab<CR>
+let g:WhichKeyDesc_Buffer = "<leader>b buffers"
 nn <leader>bd :action CloseEditor<CR>
+let g:WhichKeyDesc_Buffer_Delete = "<leader>bd delete"
 nn <leader>bo :action CloseEditorOtherTabs<CR>
+let g:WhichKeyDesc_Buffer_Only = "<leader>bo close others"
 nn <leader>bl :action CloseAllToTheLeft<CR>
+let g:WhichKeyDesc_Buffer_LeftClose = "<leader>bl close left"
 nn <leader>br :action CloseAllToTheRight<CR>
+let g:WhichKeyDesc_Buffer_RightClose = "<leader>br close right"
 nn <leader>bm :action CloseAllUnmodifiedEditors<CR>
+let g:WhichKeyDesc_Buffer_Modified = "<leader>bm close unmodified"
 nn <leader>be :action Switcher<CR>
+let g:WhichKeyDesc_Buffer_Explorer = "<leader>be switcher"
 nn <leader>bp :action PinActiveTabToggle<CR>
+let g:WhichKeyDesc_Buffer_Pin = "<leader>bp pin toggle"
 nn <leader>bP :action CloseAllUnpinnedEditors<CR>
+let g:WhichKeyDesc_Buffer_Pinned = "<leader>bP close unpinned"
 
 """ Others ----------------------------------
 nn <C-c> :nohlsearch<CR>
