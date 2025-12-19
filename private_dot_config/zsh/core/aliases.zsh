@@ -45,3 +45,6 @@ alias gb='git branch'
 # Clear screen
 alias c='clear'
 alias cls='clear'
+
+# bat
+alias cat='bat'
