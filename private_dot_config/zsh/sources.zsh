@@ -34,7 +34,7 @@ export PATH="$PATH:$HOME/.local/bin"
 # OrbStack CLI 集成（若安装）
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-# NVM is now lazy-loaded in tools/nvm.zsh - removed duplicate loading
+# fnm is loaded in tools/fnm.zsh
 
 # Source pywal16 colors
 [ -f ~/.cache/wal/sequences ] && (cat ~/.cache/wal/sequences &)

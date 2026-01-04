@@ -1,6 +1,7 @@
 [user]
 	name = pppobear
 	email = pppobear@gmail.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8fco8QeXWBNgSfLZoVqMvy4gaGZljj3ELyHS/6eBxs
 
 [core]
   pager = delta --color-only
@@ -52,3 +53,7 @@
 [diff]
   colorMoved = default
 
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
