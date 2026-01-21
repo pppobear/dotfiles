@@ -45,6 +45,9 @@ export PATH="$PATH:$GOPATH/bin"
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
 
+# fnm (Fast Node Manager)
+export PATH="$PATH:$HOME/.local/share/fnm"
+
 # Snap (仅在未包含时追加)
 case ":$PATH:" in
   *":/snap/bin:"*) ;;
@@ -53,3 +56,7 @@ esac
 
 # Bat theme
 export BAT_THEME="Catppuccin Mocha"
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
+
