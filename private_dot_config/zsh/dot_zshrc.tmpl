@@ -12,6 +12,11 @@ source "$ZDOTDIR/core/aliases.zsh"
 # Load core functions
 source "$ZDOTDIR/core/functions.zsh"
 
+# Load oh-my-zsh
+source "$ZDOTDIR/core/omz.zsh"
+
+source "$ZDOTDIR/.p10k.zsh"
+
 # Load platform-specific configuration
 {{- if eq .chezmoi.os "darwin" }}
 [ -f "$ZDOTDIR/platform/macos.zsh" ] && source "$ZDOTDIR/platform/macos.zsh"
@@ -32,6 +37,3 @@ done
 
 # Load user configuration (should be last)
 [ -f "$ZDOTDIR/local/user.zsh" ] && source "$ZDOTDIR/local/user.zsh"
-
-# Legacy compatibility - remove these lines after confirming everything works
-[ -f "$ZDOTDIR/sources.zsh" ] && source "$ZDOTDIR/sources.zsh"

@@ -31,17 +31,6 @@ else
   alias la='ls -A'
 fi
 
-# Git shortcuts
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
-alias gP='git pull'
-alias gl='git log --oneline --graph --decorate'
-alias gd='git diff'
-alias gco='git checkout'
-alias gb='git branch'
-
 # Clear screen
 alias c='clear'
 alias cls='clear'

@@ -55,7 +55,7 @@ extract() {
 
 # Quick find
 qfind() {
-  find . -iname "*$1*"
+  fd -i "$1"
 }
 
 # Show PATH in readable format

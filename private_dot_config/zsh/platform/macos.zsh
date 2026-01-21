@@ -16,20 +16,17 @@ if [ -d /opt/homebrew/opt/llvm/bin ]; then
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 fi
 
-# pnpm (macOS)
+# pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# bun (macOS)
+# bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# console-ninja
-export PATH="$HOME/.console-ninja/.bin:$PATH"
 
 # OrbStack CLI integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
@@ -48,3 +45,10 @@ alias ql='qlmanage -p "$@" >& /dev/null'
 
 # bitwarden ssh agent
 export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
+
+# pipx
+export PATH="$PATH:$HOME/.local/bin"
+
+# pywal16 colors
+[ -f ~/.cache/wal/sequences ] && (cat ~/.cache/wal/sequences &)
+[ -f ~/.cache/wal/colors.sh ] && source ~/.cache/wal/colors.sh
