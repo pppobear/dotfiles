@@ -1,0 +1,207 @@
+
+# ============================================================
+# General Settings
+# ============================================================
+
+[env]
+TERM = "xterm-256color"
+
+# ============================================================
+# Window Settings
+# ============================================================
+
+[window]
+# Background opacity (1.0 = fully opaque)
+opacity = 1.0
+
+# Window padding (in pixels)
+padding = { x = 10, y = 10 }
+
+# Initial window dimensions (columns x lines)
+# Converted from 640x400 pixels
+dimensions = { columns = 80, lines = 25 }
+
+# Window decorations: "Full", "None", "Transparent", "Buttonless"
+decorations = "Buttonless"
+
+# Startup mode
+startup_mode = "Windowed"
+
+# Window title
+title = "Alacritty"
+dynamic_title = true
+
+# ============================================================
+# Font Settings
+# ============================================================
+
+[font]
+size = 13.0
+
+[font.normal]
+family = "Maple Mono NF CN"
+style = "Regular"
+
+[font.bold]
+family = "Maple Mono NF CN"
+style = "Bold"
+
+[font.italic]
+family = "Maple Mono NF CN"
+style = "Italic"
+
+[font.bold_italic]
+family = "Maple Mono NF CN"
+style = "Bold Italic"
+
+# ============================================================
+# Cursor Settings
+# ============================================================
+
+[cursor]
+# Cursor style: "Block", "Underline", "Beam"
+style = { shape = "Block", blinking = "On" }
+
+# Cursor blink interval in milliseconds
+blink_interval = 500
+
+# Stop blinking after timeout (seconds), 0 = never stop
+blink_timeout = 15
+
+# Unfocused cursor style (hollow block)
+unfocused_hollow = true
+
+# Vi mode cursor style
+vi_mode_style = { shape = "Block", blinking = "Off" }
+
+# ============================================================
+# Scrolling Settings
+# ============================================================
+
+[scrolling]
+# Maximum lines in scrollback buffer
+history = 2000
+
+# Scroll lines per mouse wheel step
+multiplier = 5
+
+# ============================================================
+# Selection Settings
+# ============================================================
+
+[selection]
+# Characters considered part of a word for selection
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+# Save selection to clipboard
+save_to_clipboard = false
+
+# ============================================================
+# Mouse Settings
+# ============================================================
+
+[mouse]
+# Hide cursor when typing (false = never hide, matches kitty mouse_hide_wait 0.0)
+hide_when_typing = false
+
+# ============================================================
+# Hints (URL handling)
+# ============================================================
+
+[hints]
+# Alphabet for hint mode
+alphabet = "jfkdls;ahgurieowpq"
+
+[[hints.enabled]]
+# URL regex pattern
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+hyperlinks = true
+command = "xdg-open"
+post_processing = true
+persist = false
+# Shift+click to open URLs (matches kitty open_url_modifiers shift)
+mouse = { enabled = true, mods = "Shift" }
+binding = { key = "U", mods = "Control|Shift" }
+
+# ============================================================
+# Keyboard Bindings
+# ============================================================
+
+[keyboard]
+bindings = [
+    # ----- Clipboard -----
+    # Super+V: Paste from clipboard
+    { key = "V", mods = "Super", action = "Paste" },
+    # Super+C: Copy to clipboard
+    { key = "C", mods = "Super", action = "Copy" },
+    # Ctrl+Shift+S: Paste from selection
+    { key = "S", mods = "Control|Shift", action = "Paste" },
+    # Shift+Insert: Paste from selection
+    { key = "Insert", mods = "Shift", action = "PasteSelection" },
+
+    # ----- Scrolling -----
+    # Ctrl+Shift+K: Scroll one line up
+    { key = "K", mods = "Control|Shift", action = "ScrollLineUp" },
+    # Ctrl+Shift+J: Scroll one line down
+    { key = "J", mods = "Control|Shift", action = "ScrollLineDown" },
+    # Ctrl+Shift+Up: Scroll one line up
+    { key = "Up", mods = "Control|Shift", action = "ScrollLineUp" },
+    # Ctrl+Shift+Down: Scroll one line down
+    { key = "Down", mods = "Control|Shift", action = "ScrollLineDown" },
+    # Ctrl+Shift+PageUp: Scroll one page up
+    { key = "PageUp", mods = "Control|Shift", action = "ScrollPageUp" },
+    # Ctrl+Shift+PageDown: Scroll one page down
+    { key = "PageDown", mods = "Control|Shift", action = "ScrollPageDown" },
+    # Ctrl+Shift+Home: Scroll to top
+    { key = "Home", mods = "Control|Shift", action = "ScrollToTop" },
+    # Ctrl+Shift+End: Scroll to bottom
+    { key = "End", mods = "Control|Shift", action = "ScrollToBottom" },
+
+    # ----- Vi Mode (replacement for scrollback pager) -----
+    # Ctrl+Shift+H: Toggle Vi mode (replaces kitty's show_scrollback)
+    { key = "H", mods = "Control|Shift", action = "ToggleViMode" },
+
+    # ----- Window Management -----
+    # Super+N: New window
+    { key = "N", mods = "Super", action = "SpawnNewInstance" },
+    # Ctrl+Shift+Enter: New window
+    { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" },
+    # Super+W: Quit (close window)
+    { key = "W", mods = "Super", action = "Quit" },
+
+    # ----- Font Size -----
+    # Ctrl+Shift++: Increase font size
+    { key = "Plus", mods = "Control|Shift", action = "IncreaseFontSize" },
+    { key = "Equals", mods = "Control|Shift", action = "IncreaseFontSize" },
+    # Ctrl+Shift+-: Decrease font size
+    { key = "Minus", mods = "Control|Shift", action = "DecreaseFontSize" },
+    # Ctrl+Shift+0: Reset font size
+    { key = "Key0", mods = "Control|Shift", action = "ResetFontSize" },
+
+    # ----- Search Mode -----
+    # Ctrl+Shift+F: Search forward
+    { key = "F", mods = "Control|Shift", action = "SearchForward" },
+    # Ctrl+Shift+B: Search backward
+    { key = "B", mods = "Control|Shift", action = "SearchBackward" },
+]
+
+# ============================================================
+# Bell Settings
+# ============================================================
+
+[bell]
+# Visual bell duration (0 = disabled)
+duration = 0
+# Bell animation (disabled since duration is 0)
+animation = "EaseOutExpo"
+
+# ============================================================
+# Terminal Settings
+# ============================================================
+
+[terminal]
+# OSC 52 clipboard access
+osc52 = "CopyPaste"
+
+[general]
+import = ["themes/noctalia.toml"]
