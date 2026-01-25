@@ -14,6 +14,9 @@ TERM = "xterm-256color"
 # Background opacity (1.0 = fully opaque)
 opacity = 1.0
 
+# Use left Option key as Alt
+option_as_alt = "OnlyLeft"
+
 # Window padding (in pixels)
 padding = { x = 10, y = 10 }
 
