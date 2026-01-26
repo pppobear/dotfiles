@@ -7,3 +7,8 @@
 
 # Local Codex project-specific state
 .codex/config.toml
+
+{{- if ne .chezmoi.os "linux" }}
+.config/niri
+.config/rofi
+{{- end }}
