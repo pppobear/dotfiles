@@ -6,14 +6,14 @@
 # Load Zsh options and settings
 source "$ZDOTDIR/core/options.zsh"
 
-# Load core aliases
-source "$ZDOTDIR/core/aliases.zsh"
-
 # Load core functions
 source "$ZDOTDIR/core/functions.zsh"
 
 # Load oh-my-zsh
 source "$ZDOTDIR/core/omz.zsh"
+
+# Load core aliases (after oh-my-zsh to avoid being overridden)
+source "$ZDOTDIR/core/aliases.zsh"
 
 source "$ZDOTDIR/.p10k.zsh"
 
