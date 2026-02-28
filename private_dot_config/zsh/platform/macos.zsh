@@ -52,3 +52,5 @@ export PATH="$PATH:$HOME/.local/bin"
 # pywal16 colors
 [ -f ~/.cache/wal/sequences ] && (cat ~/.cache/wal/sequences &)
 [ -f ~/.cache/wal/colors.sh ] && source ~/.cache/wal/colors.sh
+
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
