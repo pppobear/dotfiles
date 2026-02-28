@@ -1,0 +1,153 @@
+# ============================================================
+# General Settings
+# ============================================================
+
+# Ghostty defaults to xterm-ghostty, override if needed
+# term = xterm-256color
+
+# ============================================================
+# Window Settings
+# ============================================================
+
+# Background opacity (1.0 = fully opaque)
+background-opacity = 1
+
+# Use left Option key as Alt (macOS)
+macos-option-as-alt = true
+
+# Window padding (in pixels)
+window-padding-x = 10
+window-padding-y = 10
+
+# Window decorations: hide title bar buttons (macOS)
+macos-titlebar-style = hidden
+
+# Window title
+title = Ghostty
+
+# ============================================================
+# Font Settings
+# ============================================================
+
+font-size = 13
+
+font-family = Maple Mono NF CN
+font-family-bold = Maple Mono NF CN
+font-family-italic = Maple Mono NF CN
+font-family-bold-italic = Maple Mono NF CN
+
+font-style = regular
+font-style-bold = bold
+font-style-italic = italic
+font-style-bold-italic = bold italic
+
+# ============================================================
+# Cursor Settings
+# ============================================================
+
+cursor-style = block
+cursor-style-blink = true
+
+# ============================================================
+# Scrolling Settings
+# ============================================================
+
+# Maximum lines in scrollback buffer
+scrollback-limit = 2000
+
+# Scroll lines per mouse wheel step
+mouse-scroll-multiplier = 5
+
+# ============================================================
+# Mouse Settings
+# ============================================================
+
+# Hide cursor when typing
+mouse-hide-while-typing = false
+
+# ============================================================
+# Clipboard Settings
+# ============================================================
+
+# OSC 52 clipboard access (allow read and write)
+clipboard-read = allow
+clipboard-write = allow
+
+# ============================================================
+# Colors (Noctalia theme - inline)
+# ============================================================
+
+background = #1e1e2e
+foreground = #cdd6f4
+
+cursor-color = #f5e0dc
+cursor-text = #1e1e2e
+
+selection-background = #585b70
+selection-foreground = #cdd6f4
+
+# Normal colors (0-7)
+palette = 0=#45475a
+palette = 1=#f38ba8
+palette = 2=#a6e3a1
+palette = 3=#f9e2af
+palette = 4=#89b4fa
+palette = 5=#f5c2e7
+palette = 6=#94e2d5
+palette = 7=#a6adc8
+
+# Bright colors (8-15)
+palette = 8=#585b70
+palette = 9=#f37799
+palette = 10=#89d88b
+palette = 11=#ebd391
+palette = 12=#74a8fc
+palette = 13=#f2aede
+palette = 14=#6bd7ca
+palette = 15=#bac2de
+
+# ============================================================
+# Keyboard Bindings
+# ============================================================
+
+# ----- Clipboard -----
+keybind = super+v=paste_from_clipboard
+keybind = super+c=copy_to_clipboard
+keybind = shift+insert=paste_from_selection
+
+# ----- Scrolling -----
+keybind = ctrl+shift+k=scroll_page_lines:-1
+keybind = ctrl+shift+j=scroll_page_lines:1
+keybind = ctrl+shift+up=scroll_page_lines:-1
+keybind = ctrl+shift+down=scroll_page_lines:1
+keybind = ctrl+shift+page_up=scroll_page_up
+keybind = ctrl+shift+page_down=scroll_page_down
+keybind = ctrl+shift+home=scroll_to_top
+keybind = ctrl+shift+end=scroll_to_bottom
+
+# ----- Window Management -----
+keybind = super+n=new_window
+keybind = ctrl+shift+enter=new_window
+keybind = super+w=close_surface
+
+# ----- Font Size -----
+keybind = ctrl+shift+plus=increase_font_size:1
+keybind = ctrl+shift+equal=increase_font_size:1
+keybind = ctrl+shift+minus=decrease_font_size:1
+keybind = ctrl+shift+zero=reset_font_size
+
+# ----- Quick Terminal (Global Hotkey) -----
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+# ============================================================
+# Quick Terminal Settings
+# ============================================================
+
+# Position: top, bottom, left, right, center
+quick-terminal-position = top
+
+# Animation duration (set to 0 to disable animation)
+quick-terminal-animation-duration = 0.15
+
+# Auto-hide when losing focus
+quick-terminal-autohide = true
