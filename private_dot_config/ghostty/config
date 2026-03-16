@@ -2,8 +2,8 @@
 # Theme
 # ============================================================
 
-theme = Catppuccin Mocha
-window-theme = dark
+theme = Gruvbox Light
+window-theme = light
 
 # ============================================================
 # Font Settings
@@ -21,8 +21,8 @@ adjust-cell-height = 1
 macos-option-as-alt = true
 macos-titlebar-style = hidden
 
-window-padding-x = 10
-window-padding-y = 10
+window-padding-x = 14
+window-padding-y = 12,10
 window-padding-balance = true
 window-padding-color = extend
 window-save-state = always
@@ -34,7 +34,7 @@ resize-overlay = after-first
 # ============================================================
 
 shell-integration = detect
-shell-integration-features = cursor,sudo,title
+shell-integration-features = cursor,sudo,title,ssh-env,path
 
 # ============================================================
 # Cursor Settings
@@ -48,7 +48,7 @@ cursor-click-to-move = true
 # Scrollback & Mouse
 # ============================================================
 
-scrollback-limit = 10000
+scrollback-limit = 20000
 mouse-scroll-multiplier = 5
 mouse-hide-while-typing = true
 
@@ -56,7 +56,7 @@ mouse-hide-while-typing = true
 # Clipboard Settings
 # ============================================================
 
-clipboard-read = allow
+clipboard-read = ask
 clipboard-write = allow
 clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
@@ -67,10 +67,10 @@ selection-clear-on-copy = true
 # Appearance
 # ============================================================
 
-background-opacity = 0.85
-background-blur-radius = 20
+background-opacity = 0.9
+background-blur-radius = 24
 minimum-contrast = 1.1
-unfocused-split-opacity = 0.85
+unfocused-split-opacity = 0.92
 confirm-close-surface = true
 
 # ============================================================
@@ -78,8 +78,6 @@ confirm-close-surface = true
 # ============================================================
 
 # ----- Clipboard -----
-keybind = super+v=paste_from_clipboard
-keybind = super+c=copy_to_clipboard
 keybind = shift+insert=paste_from_selection
 
 # ----- Scrolling -----
@@ -93,9 +91,19 @@ keybind = ctrl+shift+home=scroll_to_top
 keybind = ctrl+shift+end=scroll_to_bottom
 
 # ----- Window Management -----
-keybind = super+n=new_window
 keybind = ctrl+shift+enter=new_window
-keybind = super+w=close_surface
+
+# ----- Split Navigation -----
+keybind = super+alt+h=goto_split:left
+keybind = super+alt+j=goto_split:down
+keybind = super+alt+k=goto_split:up
+keybind = super+alt+l=goto_split:right
+
+# ----- Split Resize -----
+keybind = super+ctrl+h=resize_split:left,10
+keybind = super+ctrl+j=resize_split:down,10
+keybind = super+ctrl+k=resize_split:up,10
+keybind = super+ctrl+l=resize_split:right,10
 
 # ----- Font Size -----
 keybind = ctrl+shift+plus=increase_font_size:1

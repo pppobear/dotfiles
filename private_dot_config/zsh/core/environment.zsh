@@ -56,7 +56,7 @@ case ":$PATH:" in
 esac
 
 # Bat theme
-export BAT_THEME="Catppuccin Mocha"
+export BAT_THEME="Gruvbox Light"
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
