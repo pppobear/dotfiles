@@ -29,7 +29,8 @@ export XDG_TEMPLATES_DIR="$HOME/Templates"
 export XDG_VIDEOS_DIR="$HOME/Videos"
 
 # Terminal
-[ -z "$TMUX" ] && export TERM=xterm-256color
+# Let the terminal emulator expose its native TERM; forcing xterm-256color
+# breaks Ghostty feature detection and can confuse tmux/app key handling.
 
 # Common paths
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
@@ -59,4 +60,3 @@ export BAT_THEME="Catppuccin Mocha"
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
-
