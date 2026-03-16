@@ -228,7 +228,7 @@ spawn-at-startup "/usr/bin/kdeconnectd"
 spawn-at-startup "/usr/bin/kdeconnect-indicator"
 spawn-at-startup "nm-applet" "--indicator"
 spawn-at-startup "blueman-applet"
-spawn-at-startup "swayidle" "-w"
+// swayidle moved to systemd service: ~/.config/systemd/user/swayidle.service
 spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"

@@ -5,7 +5,8 @@
     "DISABLE_TELEMETRY": "1",
     "DISABLE_ERROR_REPORTING": "1",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "statusLine": {
     "type": "command",
@@ -13,19 +14,27 @@
     "padding": 0
   },
   "enabledPlugins": {
+    "document-skills@anthropic-agent-skills": true,
+    "example-skills@anthropic-agent-skills": true,
     "superpowers@superpowers-marketplace": true,
     "code-review@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
+    "double-shot-latte@superpowers-marketplace": true,
     "superpowers-chrome@superpowers-marketplace": true,
     "ralph-loop@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
-    "jdtls-lsp@claude-plugins-official": true
+    "jdtls-lsp@claude-plugins-official": true,
+    "jenkins-api@wenext-cc-market": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "superpowers-lab@superpowers-marketplace": true
   },
   "language": "简体中文",
   "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "autoUpdatesChannel": "stable"
 }

@@ -38,11 +38,6 @@ if [ -f ~/.cache/wal/sequences ]; then
 fi
 [ -f ~/.cache/wal/colors.sh ] && source ~/.cache/wal/colors.sh
 
-# rbw ssh agent
-if [ -n "$XDG_RUNTIME_DIR" ]; then
-  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/rbw/ssh-agent-socket"
-fi
-
 # Linux-specific aliases
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'

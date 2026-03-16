@@ -35,3 +35,5 @@ export GOOGLE_GEMINI_BASE_URL=https://co.yes.vg/team/gemini
 
 export GOOGLE_CLOUD_PROJECT="gen-lang-client-0866326289"
 
+# Load machine-local shell customizations that should not be managed by chezmoi.
+[ -f "$ZDOTDIR/local/local-only.zsh" ] && source "$ZDOTDIR/local/local-only.zsh"

@@ -15,6 +15,9 @@ platform/macos.zsh
 # user.zsh
 # fzf.zsh
 
+# Ignore machine-local shell overrides
+local/local-only.zsh
+
 # Ignore documentation and test files (optional - uncomment if you don't want to track them)
 # README.md
 # MIGRATION.md
