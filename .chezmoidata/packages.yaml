@@ -1,7 +1,11 @@
 packages:
-  macos:
+  darwin:
+    homebrew:
+      lock_wait_seconds: 5
+      max_attempts: 6
+      cask:
+        adopt: true
     formulae:
-      - autojump
       - bat
       - btop
       - eza
@@ -36,3 +40,47 @@ packages:
       - name: pnpm
         check: command -v pnpm >/dev/null 2>&1
         install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/Library/pnpm" SHELL=/bin/sh sh -
+
+  linux:
+    # Arch Linux (pacman/paru/yay) packages
+    arch:
+      packages:
+        - bat
+        - btop
+        - eza
+        - fastfetch
+        - fd
+        - fzf
+        - github-cli
+        - kubectl
+        - lazygit
+        - neovim
+        - ripgrep
+        - thefuck
+        - tmux
+        - tree
+        - zoxide
+      aur:
+        - fnm
+        - rbw
+        - yazi
+    # Debian/Ubuntu (apt) packages
+    debian:
+      packages:
+        - bat
+        - btop
+        - fd-find
+        - fzf
+        - gh
+        - neovim
+        - ripgrep
+        - tmux
+        - tree
+        - zoxide
+    custom:
+      - name: bun
+        check: command -v bun >/dev/null 2>&1
+        install: curl -fsSL https://bun.sh/install | env BUN_INSTALL="$HOME/.bun" bash
+      - name: pnpm
+        check: command -v pnpm >/dev/null 2>&1
+        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/.local/share/pnpm" SHELL=/bin/sh sh -

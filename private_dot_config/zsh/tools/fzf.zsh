@@ -18,6 +18,16 @@ else
 fi
 
 # FZF default options
+if command -v pbcopy &>/dev/null; then
+  _fzf_copy_cmd="pbcopy"
+elif command -v xclip &>/dev/null; then
+  _fzf_copy_cmd="xclip -selection clipboard"
+elif command -v xsel &>/dev/null; then
+  _fzf_copy_cmd="xsel --clipboard --input"
+else
+  _fzf_copy_cmd="cat"
+fi
+
 export FZF_DEFAULT_OPTS="
   --ansi
   --sort
@@ -35,8 +45,10 @@ export FZF_DEFAULT_OPTS="
   --bind='ctrl-u:preview-half-page-up'
   --bind='ctrl-d:preview-half-page-down'
   --bind='ctrl-a:select-all'
-  --bind='ctrl-y:execute-silent(echo {+} | pbcopy)'
+  --bind='ctrl-y:execute-silent(echo {+} | $_fzf_copy_cmd)'
 "
+
+unset _fzf_copy_cmd
 
 # FZF Ctrl-T options
 export FZF_CTRL_T_OPTS="

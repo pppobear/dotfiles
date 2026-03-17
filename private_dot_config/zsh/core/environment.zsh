@@ -32,6 +32,13 @@ export XDG_VIDEOS_DIR="$HOME/Videos"
 # Let the terminal emulator expose its native TERM; forcing xterm-256color
 # breaks Ghostty feature detection and can confuse tmux/app key handling.
 
+# Homebrew (macOS) - set up early so brew and its tools are available everywhere
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
 # Common paths
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 

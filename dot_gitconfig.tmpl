@@ -1,7 +1,7 @@
 [user]
-	name = pppobear
-	email = pppobear@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8fco8QeXWBNgSfLZoVqMvy4gaGZljj3ELyHS/6eBxs
+	name = {{ .git.user.name }}
+	email = {{ .git.user.email }}
+	signingkey = {{ .git.user.signingkey }}
 
 [core]
   pager = delta --color-only
@@ -37,7 +37,6 @@
   hunk-header-decoration-style = yellow box
 
 {{ if eq .chezmoi.os "darwin" }}
-# darwin
 [merge]
   tool = intellij
 [mergetool "intellij"]
@@ -45,9 +44,6 @@
   trustExitCode = true
 [mergetool]
   keepBackup = false
-{{ else if eq .chezmoi.os "linux" }}
-# linux
-{{ else }}
 {{ end }}
 
 [diff]
@@ -57,9 +53,23 @@
 	gpgsign = true
 [gpg]
 	format = ssh
+{{- if eq .chezmoi.os "darwin" }}
+{{- $ghPlatform := get .git.github.credential_helper "darwin" | default dict }}
+{{- $ghBinary := get $ghPlatform .chezmoi.arch | default (get $ghPlatform "default") }}
+{{- if $ghBinary }}
+{{- $ghCredentialHelper := printf "!%s auth git-credential" $ghBinary }}
 [credential "https://github.com"]
 	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = {{ $ghCredentialHelper }}
 [credential "https://gist.github.com"]
 	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = {{ $ghCredentialHelper }}
+{{- end }}
+{{- else if eq .chezmoi.os "linux" }}
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+{{- end }}

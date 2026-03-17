@@ -5,6 +5,7 @@
 .zsh_history
 .zsh_sessions/
 **/*.zwc
+docs/
 
 # Local Codex project-specific state
 .codex/config.toml

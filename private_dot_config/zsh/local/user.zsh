@@ -27,12 +27,36 @@
 # Custom scripts path
 [ -d "$HOME/scripts" ] && export PATH="$HOME/scripts:$PATH"
 
-# YesCode Token
-export APIROUTER_API_KEY={{ (rbwFields "co.yes.vg").api_key.value }}
-export ANTHROPIC_AUTH_TOKEN=$APIROUTER_API_KEY
-export GEMINI_API_KEY=$APIROUTER_API_KEY
-export GOOGLE_GEMINI_BASE_URL=https://co.yes.vg/team/gemini
+# Load shared API tokens at shell runtime so chezmoi operations don't depend
+# on rbw access and secrets are not baked into the rendered file.
+load_yescode_api_key() {
+  local yescode_api_key=""
 
+  if [ -n "${APIROUTER_API_KEY:-}" ]; then
+    return 0
+  fi
+
+  if ! command -v rbw >/dev/null 2>&1; then
+    return 0
+  fi
+
+  yescode_api_key="$(rbw get -f api_key co.yes.vg 2>/dev/null || true)"
+  if [ -z "$yescode_api_key" ]; then
+    return 0
+  fi
+
+  export APIROUTER_API_KEY="$yescode_api_key"
+}
+
+load_yescode_api_key
+unset -f load_yescode_api_key
+
+if [ -n "${APIROUTER_API_KEY:-}" ]; then
+  export ANTHROPIC_AUTH_TOKEN="${ANTHROPIC_AUTH_TOKEN:-$APIROUTER_API_KEY}"
+  export GEMINI_API_KEY="${GEMINI_API_KEY:-$APIROUTER_API_KEY}"
+fi
+
+export GOOGLE_GEMINI_BASE_URL="https://co.yes.vg/team/gemini"
 export GOOGLE_CLOUD_PROJECT="gen-lang-client-0866326289"
 
 # Load machine-local shell customizations that should not be managed by chezmoi.

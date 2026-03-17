@@ -1,16 +1,6 @@
 #!/usr/bin/env zsh
 # macOS-specific configuration
 
-# Homebrew
-if [ -x /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-
-  # Homebrew completions
-  if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-  fi
-fi
-
 # LLVM (from Homebrew)
 if [ -d /opt/homebrew/opt/llvm/bin ]; then
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -30,9 +20,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # OrbStack CLI integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-
-# autojump (Homebrew installation)
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # macOS-specific aliases
 alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder'

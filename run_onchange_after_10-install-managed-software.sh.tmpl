@@ -1,0 +1,252 @@
+#!/bin/sh
+
+set -eu
+
+# ── macOS (Darwin) 配置 ──────────────────────────────────────────────
+{{- $homebrew := get .packages.darwin "homebrew" | default dict }}
+{{- $lockWaitSeconds := get $homebrew "lock_wait_seconds" | default 5 }}
+{{- $maxAttempts := get $homebrew "max_attempts" | default 6 }}
+{{- $caskConfig := get $homebrew "cask" | default dict }}
+{{- $caskAdopt := get $caskConfig "adopt" | default true }}
+
+log() {
+  printf '%s\n' "$*"
+}
+
+# ── macOS: Homebrew 安装函数 ─────────────────────────────────────────
+
+run_brew_with_retry() {
+  install_log="$1"
+  shift
+
+  attempt=1
+  max_attempts={{ $maxAttempts }}
+  while [ "$attempt" -le "$max_attempts" ]; do
+    if "$@" >"$install_log" 2>&1; then
+      return 0
+    fi
+
+    if ! grep -Fq "has already locked" "$install_log"; then
+      return 1
+    fi
+
+    if [ "$attempt" -eq "$max_attempts" ]; then
+      return 1
+    fi
+
+    log "Homebrew 正被其他进程占用，等待 {{ $lockWaitSeconds }} 秒后重试（$attempt/$max_attempts）..."
+    sleep {{ $lockWaitSeconds }}
+    attempt=$((attempt + 1))
+  done
+}
+
+install_homebrew() {
+  log "Homebrew 未安装，开始引导安装..."
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+setup_homebrew_env() {
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+}
+
+install_formula() {
+  package_name="$1"
+  if brew list --formula "$package_name" >/dev/null 2>&1; then
+    log "formula 已存在: $package_name"
+    return 0
+  fi
+  brew install "$package_name"
+}
+
+install_cask() {
+  cask_name="$1"
+  if brew list --cask "$cask_name" >/dev/null 2>&1; then
+    log "cask 已存在: $cask_name"
+    return 0
+  fi
+
+  install_log="$(mktemp -t chezmoi-cask.XXXXXX)"
+  trap 'rm -f "$install_log"' EXIT INT TERM HUP
+  {{- if $caskAdopt }}
+  if run_brew_with_retry "$install_log" brew install --cask --adopt "$cask_name"; then
+  {{- else }}
+  if run_brew_with_retry "$install_log" brew install --cask "$cask_name"; then
+  {{- end }}
+    trap - EXIT INT TERM HUP
+    rm -f "$install_log"
+    return 0
+  fi
+
+  if grep -Eq "already an App at|already a Binary at|already a Font at|already a .* at" "$install_log"; then
+    log "跳过 cask: $cask_name（系统中已存在同名安装，未由 Homebrew 接管）"
+    trap - EXIT INT TERM HUP
+    rm -f "$install_log"
+    return 0
+  fi
+
+  cat "$install_log" >&2
+  trap - EXIT INT TERM HUP
+  rm -f "$install_log"
+  return 1
+}
+
+# ── 通用: 自定义安装函数 ──────────────────────────────────────────────
+
+install_custom() {
+  package_name="$1"
+  check_command="$2"
+  install_command="$3"
+
+  if sh -c "$check_command"; then
+    log "自定义软件已存在: $package_name"
+    return 0
+  fi
+
+  sh -c "$install_command"
+}
+
+# ── Linux: 包安装函数 ─────────────────────────────────────────────────
+
+install_arch_package() {
+  package_name="$1"
+  if command -v paru >/dev/null 2>&1; then
+    paru -S --needed --noconfirm "$package_name"
+  elif command -v yay >/dev/null 2>&1; then
+    yay -S --needed --noconfirm "$package_name"
+  else
+    sudo pacman -S --needed --noconfirm "$package_name"
+  fi
+}
+
+install_arch_aur() {
+  package_name="$1"
+  if command -v paru >/dev/null 2>&1; then
+    paru -S --needed --noconfirm "$package_name"
+  elif command -v yay >/dev/null 2>&1; then
+    yay -S --needed --noconfirm "$package_name"
+  else
+    log "警告：未找到 AUR 助手（paru/yay），跳过 AUR 包: $package_name"
+    return 0
+  fi
+}
+
+install_debian_package() {
+  package_name="$1"
+  if dpkg -l "$package_name" >/dev/null 2>&1; then
+    log "deb 包已存在: $package_name"
+    return 0
+  fi
+  sudo apt-get install -y "$package_name"
+}
+
+detect_linux_distro() {
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+      arch | manjaro | endeavouros | garuda)
+        echo "arch"
+        ;;
+      ubuntu | debian | linuxmint | pop)
+        echo "debian"
+        ;;
+      *)
+        # 尝试通过 ID_LIKE 推断
+        case "${ID_LIKE:-}" in
+          *arch*) echo "arch" ;;
+          *debian* | *ubuntu*) echo "debian" ;;
+          *) echo "unknown" ;;
+        esac
+        ;;
+    esac
+  else
+    echo "unknown"
+  fi
+}
+
+# ── 入口逻辑 ──────────────────────────────────────────────────────────
+
+OS="$(uname -s)"
+
+case "$OS" in
+  Darwin)
+    log "=== macOS: 开始安装 Homebrew 管理的软件包 ==="
+
+    if ! command -v brew >/dev/null 2>&1; then
+      install_homebrew
+    fi
+
+    setup_homebrew_env
+
+    if ! command -v brew >/dev/null 2>&1; then
+      log "错误：Homebrew 安装后仍不可用。"
+      exit 1
+    fi
+
+    {{- range .packages.darwin.formulae }}
+    install_formula "{{ . }}"
+    {{- end }}
+
+    {{- range .packages.darwin.casks }}
+    install_cask "{{ . }}"
+    {{- end }}
+
+    {{- range .packages.darwin.fonts }}
+    install_cask "{{ . }}"
+    {{- end }}
+
+    {{- range .packages.darwin.custom }}
+    install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
+    {{- end }}
+    ;;
+
+  Linux)
+    log "=== Linux: 开始安装系统包 ==="
+    DISTRO="$(detect_linux_distro)"
+    log "检测到发行版类型: $DISTRO"
+
+    case "$DISTRO" in
+      arch)
+        log "--- Arch Linux: 安装 pacman 包 ---"
+        {{- range .packages.linux.arch.packages }}
+        install_arch_package "{{ . }}"
+        {{- end }}
+
+        log "--- Arch Linux: 安装 AUR 包 ---"
+        {{- range .packages.linux.arch.aur }}
+        install_arch_aur "{{ . }}"
+        {{- end }}
+        ;;
+
+      debian)
+        log "--- Debian/Ubuntu: 更新包索引 ---"
+        sudo apt-get update -qq
+
+        log "--- Debian/Ubuntu: 安装 apt 包 ---"
+        {{- range .packages.linux.debian.packages }}
+        install_debian_package "{{ . }}"
+        {{- end }}
+        ;;
+
+      *)
+        log "警告：未识别的 Linux 发行版（$DISTRO），跳过系统包安装。"
+        log "请手动安装所需软件包。"
+        ;;
+    esac
+
+    log "--- Linux: 安装自定义软件 ---"
+    {{- range .packages.linux.custom }}
+    install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
+    {{- end }}
+    ;;
+
+  *)
+    log "跳过受管软件安装：不支持的系统 ($OS)。"
+    exit 0
+    ;;
+esac
+
+log "chezmoi 受管软件安装完成。"

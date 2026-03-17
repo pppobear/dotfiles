@@ -1,0 +1,18 @@
+{{- $archiveDefaults := .externals.archive_defaults -}}
+{{- $gitRepoDefaults := .externals.git_repo_defaults -}}
+{{- range .externals.archives }}
+["{{ .target }}"]
+    type = "archive"
+    url = "{{ .url }}"
+    exact = {{- if hasKey . "exact" }} {{ .exact }}{{- else }} {{ $archiveDefaults.exact }}{{- end }}
+    stripComponents = {{- if hasKey . "stripComponents" }} {{ .stripComponents }}{{- else }} {{ $archiveDefaults.stripComponents }}{{- end }}
+    refreshPeriod = "{{- if hasKey . "refreshPeriod" }}{{ .refreshPeriod }}{{- else }}{{ $archiveDefaults.refreshPeriod }}{{- end }}"
+
+{{- end }}
+{{- range .externals.git_repos }}
+["{{ .target }}"]
+    type = "git-repo"
+    url = "{{ .url }}"
+    refreshPeriod = "{{- if hasKey . "refreshPeriod" }}{{ .refreshPeriod }}{{- else }}{{ $gitRepoDefaults.refreshPeriod }}{{- end }}"
+
+{{- end }}

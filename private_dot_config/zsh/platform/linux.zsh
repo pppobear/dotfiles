@@ -43,5 +43,10 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias open='xdg-open'
 
+# Debian/Ubuntu: bat 安装后可执行文件名为 batcat
+if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
+  alias bat='batcat'
+fi
+
 # rbw ssh-agent socket auto-detection
 setup_rbw_ssh_auth_sock

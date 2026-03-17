@@ -3,6 +3,15 @@
 
 # kubectl completion
 if command -v kubectl >/dev/null 2>&1; then
+<<<<<<< HEAD
+=======
+  # Oh My Zsh already runs compinit; only fall back when sourced standalone.
+  if (( ! $+functions[compdef] )); then
+    autoload -Uz compinit
+    compinit
+  fi
+
+>>>>>>> 71c06b3 (refactor(dotfiles): restructure chezmoi source)
   # Cache completion to avoid regenerating on every startup
   _kubectl_completion="${ZDOTDIR:-$HOME/.config/zsh}/.kubectl_completion"
   if [[ ! -f "$_kubectl_completion" ]] || [[ $(find "$_kubectl_completion" -mtime +7 2>/dev/null) ]]; then
