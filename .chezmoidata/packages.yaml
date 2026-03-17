@@ -1,0 +1,38 @@
+packages:
+  macos:
+    formulae:
+      - autojump
+      - bat
+      - btop
+      - eza
+      - fastfetch
+      - fd
+      - fnm
+      - fzf
+      - gh
+      - kubectl
+      - lazygit
+      - llvm
+      - neovim
+      - rbw
+      - ripgrep
+      - thefuck
+      - tmux
+      - tree
+      - yazi
+      - zoxide
+    casks:
+      - alacritty
+      - ghostty
+      - kitty
+      - orbstack
+      - wezterm
+    fonts:
+      - font-maple-mono-nf-cn
+    custom:
+      - name: bun
+        check: command -v bun >/dev/null 2>&1
+        install: curl -fsSL https://bun.sh/install | env BUN_INSTALL="$HOME/.bun" bash
+      - name: pnpm
+        check: command -v pnpm >/dev/null 2>&1
+        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/Library/pnpm" SHELL=/bin/sh sh -

@@ -9,11 +9,12 @@ plugins=(
   chezmoi
   thefuck
   fzf
-  fzf-tab
   gh
   git
   zsh-256color
   zsh-completions
+  # Keep fzf-tab at the end so it remains the last plugin to bind Tab.
+  fzf-tab
 )
 
 # disable sort when completing `git checkout`
@@ -38,4 +39,3 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 source $ZSH/oh-my-zsh.sh
-

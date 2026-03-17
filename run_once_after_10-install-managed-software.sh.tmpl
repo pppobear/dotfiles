@@ -1,0 +1,137 @@
+#!/bin/sh
+
+set -eu
+
+log() {
+  printf '%s\n' "$*"
+}
+
+STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+CHEZMOI_STATE_DIR="$STATE_HOME/chezmoi"
+INSTALL_MARKER="$CHEZMOI_STATE_DIR/install-managed-software.done"
+
+run_brew_with_retry() {
+  install_log="$1"
+  shift
+
+  attempt=1
+  max_attempts=6
+  while [ "$attempt" -le "$max_attempts" ]; do
+    if "$@" >"$install_log" 2>&1; then
+      return 0
+    fi
+
+    if ! grep -Fq "has already locked" "$install_log"; then
+      return 1
+    fi
+
+    if [ "$attempt" -eq "$max_attempts" ]; then
+      return 1
+    fi
+
+    log "Homebrew 正被其他进程占用，等待 5 秒后重试（$attempt/$max_attempts）..."
+    sleep 5
+    attempt=$((attempt + 1))
+  done
+}
+
+install_homebrew() {
+  log "Homebrew 未安装，开始引导安装..."
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+setup_homebrew_env() {
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+}
+
+install_formula() {
+  package_name="$1"
+  if brew list --formula "$package_name" >/dev/null 2>&1; then
+    log "formula 已存在: $package_name"
+    return 0
+  fi
+  brew install "$package_name"
+}
+
+install_cask() {
+  cask_name="$1"
+  if brew list --cask "$cask_name" >/dev/null 2>&1; then
+    log "cask 已存在: $cask_name"
+    return 0
+  fi
+
+  install_log="$(mktemp -t chezmoi-cask.XXXXXX)"
+  if run_brew_with_retry "$install_log" brew install --cask --adopt "$cask_name"; then
+    rm -f "$install_log"
+    return 0
+  fi
+
+  if grep -Eq "already an App at|already a Binary at|already a Font at|already a .* at" "$install_log"; then
+    log "跳过 cask: $cask_name（系统中已存在同名安装，未由 Homebrew 接管）"
+    rm -f "$install_log"
+    return 0
+  fi
+
+  cat "$install_log" >&2
+  rm -f "$install_log"
+  return 1
+}
+
+install_custom() {
+  package_name="$1"
+  check_command="$2"
+  install_command="$3"
+
+  if sh -c "$check_command"; then
+    log "自定义软件已存在: $package_name"
+    return 0
+  fi
+
+  sh -c "$install_command"
+}
+
+if [ "$(uname -s)" != "Darwin" ]; then
+  log "跳过受管软件安装：当前仅为 macOS 配置了自动安装。"
+  exit 0
+fi
+
+if [ -f "$INSTALL_MARKER" ]; then
+  log "跳过受管软件安装：已完成首次安装。"
+  exit 0
+fi
+
+if ! command -v brew >/dev/null 2>&1; then
+  install_homebrew
+fi
+
+setup_homebrew_env
+
+if ! command -v brew >/dev/null 2>&1; then
+  log "错误：Homebrew 安装后仍不可用。"
+  exit 1
+fi
+
+{{- range .packages.macos.formulae }}
+install_formula "{{ . }}"
+{{- end }}
+
+{{- range .packages.macos.casks }}
+install_cask "{{ . }}"
+{{- end }}
+
+{{- range .packages.macos.fonts }}
+install_cask "{{ . }}"
+{{- end }}
+
+{{- range .packages.macos.custom }}
+install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
+{{- end }}
+
+mkdir -p "$CHEZMOI_STATE_DIR"
+touch "$INSTALL_MARKER"
+
+log "chezmoi 受管软件安装完成。"

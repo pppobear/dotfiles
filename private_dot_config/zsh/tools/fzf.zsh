@@ -46,10 +46,3 @@ export FZF_CTRL_T_OPTS="
 
 # FZF Alt-C options
 export FZF_ALT_C_OPTS="$FZF_CTRL_T_OPTS"
-
-# Initialize fzf key bindings and fuzzy completion
-if [ -f ~/.fzf.zsh ]; then
-  source ~/.fzf.zsh
-else
-  source <(fzf --zsh) 2>/dev/null
-fi

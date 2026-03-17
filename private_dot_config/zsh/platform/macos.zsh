@@ -43,8 +43,8 @@ alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 # Quick Look
 alias ql='qlmanage -p "$@" >& /dev/null'
 
-# bitwarden ssh agent
-export SSH_AUTH_SOCK=$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock
+# rbw ssh-agent socket auto-detection
+setup_rbw_ssh_auth_sock
 
 # pipx
 export PATH="$PATH:$HOME/.local/bin"
