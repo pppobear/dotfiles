@@ -11,7 +11,6 @@ plugins=(
   fzf
   gh
   git
-  zsh-256color
   zsh-completions
   # Keep fzf-tab at the end so it remains the last plugin to bind Tab.
   fzf-tab
