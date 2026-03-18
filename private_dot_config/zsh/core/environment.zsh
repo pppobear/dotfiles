@@ -44,7 +44,9 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
 # Development
 export GITHUB_USERNAME=pppobear
-export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+if [[ -f "$HOME/.ripgreprc" ]]; then
+  export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+fi
 
 # Go
 export GOPATH="$HOME/go"
