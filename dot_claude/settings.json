@@ -32,11 +32,20 @@
     "jenkins-api@wenext-cc-market": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "superpowers-lab@superpowers-marketplace": true,
-    "figma@claude-plugins-official": true
+    "figma@claude-plugins-official": true,
+    "obsidian@obsidian-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "obsidian-skills": {
+      "source": {
+        "source": "github",
+        "repo": "kepano/obsidian-skills"
+      }
+    }
   },
   "language": "简体中文",
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true,
-  "autoUpdatesChannel": "stable"
+  "autoUpdatesChannel": "stable",
+  "skipDangerousModePermissionPrompt": true
 }
