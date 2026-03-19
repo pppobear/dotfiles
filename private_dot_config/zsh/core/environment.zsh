@@ -31,6 +31,18 @@ export XDG_VIDEOS_DIR="$HOME/Videos"
 # Terminal
 # Let the terminal emulator expose its native TERM; forcing xterm-256color
 # breaks Ghostty feature detection and can confuse tmux/app key handling.
+#
+# Some tools only inspect TERM_PROGRAM/LC_TERMINAL and lose Ghostty detection
+# once they are launched inside tmux. Ghostty exposes a stable marker via
+# GHOSTTY_RESOURCES_DIR, so use that to restore the outer terminal identity
+# without touching TERM itself.
+if [[ -n "${GHOSTTY_RESOURCES_DIR:-}" || "${TERM:-}" == "xterm-ghostty" || "${TERM_PROGRAM:-}" == "ghostty" ]]; then
+  export LC_TERMINAL="${LC_TERMINAL:-ghostty}"
+
+  if [[ -z "${TERM_PROGRAM:-}" || "${TERM_PROGRAM:-}" == "tmux" ]]; then
+    export TERM_PROGRAM="ghostty"
+  fi
+fi
 
 # Homebrew (macOS) - set up early so brew and its tools are available everywhere
 if [[ -x /opt/homebrew/bin/brew ]]; then

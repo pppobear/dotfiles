@@ -10,6 +10,10 @@ docs/
 # Local Codex project-specific state
 .codex/config.toml
 
+# Claude mutates this file when plugins/settings change, so managing it causes
+# repeated "has changed since chezmoi last wrote it" prompts on apply.
+.claude/settings.json
+
 {{- if ne .chezmoi.os "linux" }}
 .config/niri
 .config/rofi
