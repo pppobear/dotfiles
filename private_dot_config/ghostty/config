@@ -34,7 +34,7 @@ resize-overlay = after-first
 # ============================================================
 
 shell-integration = detect
-shell-integration-features = cursor,sudo,title,ssh-env,path
+shell-integration-features = cursor,sudo,title,ssh-terminfo,ssh-env,path
 
 # ============================================================
 # Cursor Settings

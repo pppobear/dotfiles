@@ -1,6 +1,6 @@
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "https://co-cdn.yes.vg/team",
+    "ANTHROPIC_BASE_URL": "https://co.yes.vg/team",
     "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "50000",
     "DISABLE_TELEMETRY": "1",
     "DISABLE_ERROR_REPORTING": "1",
@@ -47,5 +47,19 @@
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": true,
   "autoUpdatesChannel": "stable",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "model": "opus[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ .chezmoi.homeDir }}/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
