@@ -1,0 +1,14 @@
+{
+  "showInTray": true,
+  "minimizeToTrayOnClose": true,
+  "enableClaudePluginIntegration": false,
+  "skipClaudeOnboarding": false,
+  "launchOnStartup": false,
+  "silentStartup": false,
+  "enableLocalProxy": false,
+  "streamCheckConfirmed": true,
+  "enableFailoverToggle": false,
+  "language": "zh",
+  "skillSyncMethod": "auto",
+  "preferredTerminal": "ghostty"
+}
