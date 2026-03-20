@@ -3,8 +3,8 @@
 
 # History configuration
 HISTFILE="${ZDOTDIR:-$HOME/.config/zsh}/.zsh_history"
-HISTSIZE=20000
-SAVEHIST=20000
+HISTSIZE=100000
+SAVEHIST=100000
 
 # History options
 setopt INC_APPEND_HISTORY      # Write to history file immediately
