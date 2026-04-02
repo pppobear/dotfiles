@@ -29,9 +29,38 @@
 
 # Load shared API tokens at shell runtime so chezmoi operations don't depend
 # on rbw access and secrets are not baked into the rendered file.
+_yescode_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+_yescode_api_key_cache="${_yescode_cache_dir}/apirouter_api_key"
+_yescode_api_key_cache_ttl_seconds="${YESCODE_API_KEY_CACHE_TTL_SECONDS:-43200}"
+
+load_yescode_api_key_from_cache() {
+  local yescode_api_key=""
+  local -a _yescode_cache_stat
+
+  if [ -n "${APIROUTER_API_KEY:-}" ] || [ ! -r "$_yescode_api_key_cache" ]; then
+    return 0
+  fi
+
+  zmodload -F zsh/stat b:zstat 2>/dev/null || return 0
+  zstat -A _yescode_cache_stat +mtime -- "$_yescode_api_key_cache" 2>/dev/null || return 0
+  if (( EPOCHSECONDS - _yescode_cache_stat[1] > _yescode_api_key_cache_ttl_seconds )); then
+    return 0
+  fi
+
+  IFS= read -r yescode_api_key < "$_yescode_api_key_cache" || return 0
+  [ -z "$yescode_api_key" ] && return 0
+
+  export APIROUTER_API_KEY="$yescode_api_key"
+}
+
 load_yescode_api_key() {
   local yescode_api_key=""
 
+  if [ -n "${APIROUTER_API_KEY:-}" ]; then
+    return 0
+  fi
+
+  load_yescode_api_key_from_cache
   if [ -n "${APIROUTER_API_KEY:-}" ]; then
     return 0
   fi
@@ -46,15 +75,21 @@ load_yescode_api_key() {
   fi
 
   export APIROUTER_API_KEY="$yescode_api_key"
+  mkdir -p "$_yescode_cache_dir" 2>/dev/null || return 0
+  ( umask 077 && printf '%s\n' "$yescode_api_key" >| "$_yescode_api_key_cache" ) 2>/dev/null || true
+}
+
+sync_yescode_api_env() {
+  if [ -z "${APIROUTER_API_KEY:-}" ]; then
+    return 0
+  fi
+
+  export ANTHROPIC_AUTH_TOKEN="${ANTHROPIC_AUTH_TOKEN:-$APIROUTER_API_KEY}"
+  export GEMINI_API_KEY="${GEMINI_API_KEY:-$APIROUTER_API_KEY}"
 }
 
 load_yescode_api_key
-unset -f load_yescode_api_key
-
-if [ -n "${APIROUTER_API_KEY:-}" ]; then
-  export ANTHROPIC_AUTH_TOKEN="${ANTHROPIC_AUTH_TOKEN:-$APIROUTER_API_KEY}"
-  export GEMINI_API_KEY="${GEMINI_API_KEY:-$APIROUTER_API_KEY}"
-fi
+sync_yescode_api_env
 
 export GOOGLE_GEMINI_BASE_URL="https://co.yes.vg/team/gemini"
 export GOOGLE_CLOUD_PROJECT="gen-lang-client-0866326289"
