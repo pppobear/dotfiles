@@ -49,6 +49,7 @@ cursor-click-to-move = true
 # ============================================================
 
 scrollback-limit = 20000
+link-url = true
 mouse-scroll-multiplier = 5
 mouse-hide-while-typing = true
 
@@ -92,6 +93,9 @@ keybind = ctrl+shift+end=scroll_to_bottom
 
 # ----- Window Management -----
 keybind = ctrl+shift+enter=new_window
+
+# ----- Mouse / Links -----
+keybind = super+shift+m=toggle_mouse_reporting
 
 # ----- Split Navigation -----
 keybind = super+alt+h=goto_split:left
