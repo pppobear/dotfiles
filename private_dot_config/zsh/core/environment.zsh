@@ -1,6 +1,13 @@
 #!/usr/bin/env zsh
 # Core environment variables - cross-platform
 
+# Guard against duplicate loading. This file is sourced from .zshenv and must
+# stay cheap for every shell; interactive shells should not re-run it.
+if [[ -n "${__ZSH_CORE_ENVIRONMENT_LOADED:-}" ]]; then
+  return 0
+fi
+export __ZSH_CORE_ENVIRONMENT_LOADED=1
+
 # Locale
 export LANG=zh_CN.UTF-8
 export LC_ALL=zh_CN.UTF-8
@@ -44,11 +51,19 @@ if [[ -n "${GHOSTTY_RESOURCES_DIR:-}" || "${TERM:-}" == "xterm-ghostty" || "${TE
   fi
 fi
 
-# Homebrew (macOS) - set up early so brew and its tools are available everywhere
+# Homebrew (macOS) - avoid spawning `brew shellenv` on every shell startup.
+# The prefix is stable on managed installations, so export the same values
+# directly and prepend bin/sbin once.
 if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+  export HOMEBREW_REPOSITORY="/opt/homebrew"
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 elif [[ -x /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
+  export HOMEBREW_PREFIX="/usr/local"
+  export HOMEBREW_CELLAR="/usr/local/Cellar"
+  export HOMEBREW_REPOSITORY="/usr/local/Homebrew"
+  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 fi
 
 # Common paths

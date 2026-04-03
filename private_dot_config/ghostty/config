@@ -33,8 +33,9 @@ resize-overlay = after-first
 # Shell Integration
 # ============================================================
 
+term = xterm-256color
 shell-integration = detect
-shell-integration-features = cursor,sudo,title,ssh-terminfo,ssh-env,path
+shell-integration-features = cursor,sudo,title,path
 
 # ============================================================
 # Cursor Settings

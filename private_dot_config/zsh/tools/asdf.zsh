@@ -12,7 +12,6 @@ if [[ -f "$_asdf_libexec" ]]; then
   _asdf_java_home_hook="${ASDF_DATA_DIR}/plugins/java/set-java-home.zsh"
   if [[ -f "$_asdf_java_home_hook" ]]; then
     source "$_asdf_java_home_hook"
-    typeset -f asdf_update_java_home >/dev/null 2>&1 && asdf_update_java_home
   fi
 
   _asdf_completion="${ZDOTDIR:-$HOME/.config/zsh}/.asdf_completion"
@@ -21,6 +20,26 @@ if [[ -f "$_asdf_libexec" ]]; then
   fi
   [[ -f "$_asdf_completion" ]] && source "$_asdf_completion"
   unset _asdf_completion
+
+  _ensure_asdf_java_home() {
+    [[ -n "${JAVA_HOME:-}" ]] && return 0
+    typeset -f asdf_update_java_home >/dev/null 2>&1 || return 0
+    asdf_update_java_home >/dev/null 2>&1 || true
+  }
+
+  for _asdf_java_cmd in java javac jar jshell mvn gradle; do
+    if command -v "$_asdf_java_cmd" >/dev/null 2>&1; then
+      eval "
+${_asdf_java_cmd}() {
+  unset -f ${_asdf_java_cmd}
+  _ensure_asdf_java_home
+  command ${_asdf_java_cmd} \"\$@\"
+}
+"
+    fi
+  done
+
+  unset _asdf_java_cmd
   unset _asdf_java_home_hook
 fi
 

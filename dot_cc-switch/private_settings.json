@@ -6,9 +6,11 @@
   "launchOnStartup": false,
   "silentStartup": false,
   "enableLocalProxy": false,
+  "usageConfirmed": true,
   "streamCheckConfirmed": true,
   "enableFailoverToggle": false,
   "language": "zh",
+  "currentProviderClaude": "cdd1560d-64b0-477f-9eff-da671015f640",
   "skillSyncMethod": "auto",
   "preferredTerminal": "ghostty"
 }

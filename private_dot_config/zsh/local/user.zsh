@@ -27,6 +27,18 @@
 # Custom scripts path
 [ -d "$HOME/scripts" ] && export PATH="$HOME/scripts:$PATH"
 
+# Ghostty defaults to TERM=xterm-ghostty, but many jump hosts and older
+# servers do not ship that terminfo entry. Downgrade TERM only for outbound
+# interactive SSH sessions so remote readline/tput/backspace behavior stays
+# compatible without changing the local terminal identity.
+ssh() {
+  if [[ -t 0 && -t 1 && "${TERM:-}" == "xterm-ghostty" ]]; then
+    TERM=xterm-256color command ssh "$@"
+  else
+    command ssh "$@"
+  fi
+}
+
 # Load shared API tokens at shell runtime so chezmoi operations don't depend
 # on rbw access and secrets are not baked into the rendered file.
 _yescode_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"

@@ -1,0 +1,22 @@
+# Added by OrbStack: 'orb' SSH host for Linux machines
+# This only works if it's at the top of ssh_config (before any Host blocks).
+# This won't be added again if you remove it.
+Include ~/.orbstack/ssh/config
+
+Host zx_jumpserver
+  Hostname  jms.wenext.technology
+  Port 2222
+  User suyihang
+  # JumpServer 会把当前会话的 TERM 继续带到目标机；Ghostty 的
+  # xterm-ghostty 在这条链路上并不稳定，显式降级为通用 terminfo。
+  SetEnv TERM=xterm-256color
+
+Host dabai-wsl
+  Hostname  192.168.5.24
+  Port 2222
+  User enoch
+
+Host dabai-arch
+  Hostname  192.168.5.24
+  Port 22
+  User enoch

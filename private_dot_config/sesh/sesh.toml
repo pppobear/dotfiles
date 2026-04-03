@@ -1,0 +1,24 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+
+blacklist = ["Scratch"]
+
+[default_session]
+preview_command = "eza --all --git --icons=always --color=always {}"
+
+[[session]]
+name = "dotfiles"
+path = "~/.local/share/chezmoi"
+preview_command = "eza --all --git --icons=always --color=always {}"
+
+[[session]]
+name = "vault"
+path = "~/Documents/personal-vault"
+preview_command = "eza --all --git --icons=always --color=always {}"
+
+[[wildcard]]
+pattern = "~/projects/**"
+preview_command = "eza --all --git --icons=always --color=always {}"
+
+[[wildcard]]
+pattern = "~/.local/share/*"
+preview_command = "eza --all --git --icons=always --color=always {}"

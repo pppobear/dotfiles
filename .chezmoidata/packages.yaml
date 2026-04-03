@@ -19,6 +19,7 @@ packages:
       - neovim
       - rbw
       - ripgrep
+      - sesh
       - thefuck
       - tmux
       - tree

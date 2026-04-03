@@ -6,6 +6,14 @@ if ! command -v fzf >/dev/null 2>&1; then
   return 0
 fi
 
+# Lightweight key bindings. Completion should come from Homebrew/site-functions
+# via compinit, so avoid the heavier `eval "$(fzf --zsh)"` startup path.
+if [[ -n "${HOMEBREW_PREFIX:-}" ]] && [[ -f "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh" ]]; then
+  source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
+elif [[ -f "$HOME/.fzf/shell/key-bindings.zsh" ]]; then
+  source "$HOME/.fzf/shell/key-bindings.zsh"
+fi
+
 # FZF default command (use fd if available, fallback to find)
 if command -v fd >/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"

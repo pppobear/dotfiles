@@ -67,7 +67,7 @@ path() {
 setup_rbw_ssh_auth_sock() {
   local rbw_candidates=()
   local rbw_tmp_base="${TMPDIR:-/tmp}"
-  local rbw_uid="$(id -u)"
+  local rbw_uid="${EUID:-$(id -u)}"
   local sock
 
   if [[ -n ${XDG_RUNTIME_DIR:-} ]]; then
