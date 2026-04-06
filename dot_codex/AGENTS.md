@@ -7,11 +7,11 @@
 
 ## Obsidian 外部记忆
 
-当用户明确要求使用 Obsidian 长期记忆，或任务本身属于个人知识库、Obsidian、AI memory 工作流时，使用以下协议。
+当用户明确要求使用 Obsidian 长期记忆，或任务本身属于个人知识库、Obsidian、AI memory 工作流时，使用以下协议。obsidian-cli 需要沙箱提权。
 
 ### Vault
 
-- 路径：`/Users/enoch/Documents/personal-vault`
+- 路径：`~/Documents/personal-vault`
 
 ### 启动时默认读取
 
