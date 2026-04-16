@@ -1,0 +1,47 @@
+#!/bin/sh
+set -eu
+
+uid="$(id -u)"
+rbw_tmp_base="${TMPDIR:-/tmp}"
+current="${SSH_AUTH_SOCK:-}"
+
+find_sock() {
+  if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    if [ -n "${RBW_PROFILE:-}" ] && [ -S "${XDG_RUNTIME_DIR%/}/rbw-${RBW_PROFILE}/ssh-agent-socket" ]; then
+      printf '%s\n' "${XDG_RUNTIME_DIR%/}/rbw-${RBW_PROFILE}/ssh-agent-socket"
+      return 0
+    fi
+    if [ -S "${XDG_RUNTIME_DIR%/}/rbw/ssh-agent-socket" ]; then
+      printf '%s\n' "${XDG_RUNTIME_DIR%/}/rbw/ssh-agent-socket"
+      return 0
+    fi
+  fi
+
+  if [ -n "${RBW_PROFILE:-}" ]; then
+    if [ -S "${rbw_tmp_base%/}/rbw-${RBW_PROFILE}-${uid}/ssh-agent-socket" ]; then
+      printf '%s\n' "${rbw_tmp_base%/}/rbw-${RBW_PROFILE}-${uid}/ssh-agent-socket"
+      return 0
+    fi
+    if [ -S "${rbw_tmp_base%/}/rbw-${RBW_PROFILE}/ssh-agent-socket" ]; then
+      printf '%s\n' "${rbw_tmp_base%/}/rbw-${RBW_PROFILE}/ssh-agent-socket"
+      return 0
+    fi
+  fi
+
+  if [ -S "${rbw_tmp_base%/}/rbw-${uid}/ssh-agent-socket" ]; then
+    printf '%s\n' "${rbw_tmp_base%/}/rbw-${uid}/ssh-agent-socket"
+    return 0
+  fi
+  if [ -S "${rbw_tmp_base%/}/rbw/ssh-agent-socket" ]; then
+    printf '%s\n' "${rbw_tmp_base%/}/rbw/ssh-agent-socket"
+    return 0
+  fi
+
+  return 1
+}
+
+if sock="$(find_sock)"; then
+  launchctl setenv SSH_AUTH_SOCK "$sock"
+else
+  launchctl unsetenv SSH_AUTH_SOCK || true
+fi

@@ -48,5 +48,3 @@ if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
   alias bat='batcat'
 fi
 
-# rbw ssh-agent socket auto-detection
-setup_rbw_ssh_auth_sock

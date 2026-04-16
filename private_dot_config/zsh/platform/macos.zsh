@@ -30,9 +30,6 @@ alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 # Quick Look
 alias ql='qlmanage -p "$@" >& /dev/null'
 
-# rbw ssh-agent socket auto-detection
-setup_rbw_ssh_auth_sock
-
 # pipx
 export PATH="$PATH:$HOME/.local/bin"
 

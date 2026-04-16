@@ -8,3 +8,6 @@ export ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 
 # Source core environment variables
 source "$ZDOTDIR/core/environment.zsh"
+
+# Resolve SSH agent early so non-interactive shells use the preferred socket.
+[ -f "$ZDOTDIR/core/ssh-agent.zsh" ] && source "$ZDOTDIR/core/ssh-agent.zsh"

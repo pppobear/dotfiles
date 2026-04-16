@@ -35,11 +35,11 @@ packages:
       - font-maple-mono-nf-cn
     custom:
       - name: bun
-        check: command -v bun >/dev/null 2>&1
+        check: '[ -x "$HOME/.bun/bin/bun" ] || command -v bun >/dev/null 2>&1'
         install: curl -fsSL https://bun.sh/install | env BUN_INSTALL="$HOME/.bun" bash
       - name: pnpm
-        check: command -v pnpm >/dev/null 2>&1
-        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/Library/pnpm" SHELL=/bin/sh sh -
+        check: '[ -x "$HOME/Library/pnpm/pnpm" ] || command -v pnpm >/dev/null 2>&1'
+        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/Library/pnpm" SHELL="${SHELL:-/bin/zsh}" sh -
 
   linux:
     # Arch Linux (pacman/paru/yay) packages
@@ -78,8 +78,8 @@ packages:
         - zoxide
     custom:
       - name: bun
-        check: command -v bun >/dev/null 2>&1
+        check: '[ -x "$HOME/.bun/bin/bun" ] || command -v bun >/dev/null 2>&1'
         install: curl -fsSL https://bun.sh/install | env BUN_INSTALL="$HOME/.bun" bash
       - name: pnpm
-        check: command -v pnpm >/dev/null 2>&1
-        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/.local/share/pnpm" SHELL=/bin/sh sh -
+        check: '[ -x "$HOME/.local/share/pnpm/pnpm" ] || command -v pnpm >/dev/null 2>&1'
+        install: curl -fsSL https://get.pnpm.io/install.sh | env PNPM_HOME="$HOME/.local/share/pnpm" SHELL="${SHELL:-/bin/bash}" sh -
