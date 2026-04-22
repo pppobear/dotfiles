@@ -6,6 +6,7 @@
 .zsh_sessions/
 **/*.zwc
 docs/
+.tool-versions
 
 # Local Codex project-specific state
 .codex/config.toml
@@ -17,4 +18,9 @@ docs/
 {{- if ne .chezmoi.os "linux" }}
 .config/niri
 .config/rofi
+.config/environment.d
+.config/gtk-3.0
+.config/gtk-4.0
+.config/qt6ct
+.config/xsettingsd
 {{- end }}

@@ -276,14 +276,13 @@ window-rule {
 
 // Scratchpad rule
 window-rule {
-    match app-id=r#"^special*"#
+    match title=r#"^special-.*"#
     default-column-width { proportion 0.9; }
     open-on-workspace "Scratchpad"
 }
 
  window-rule {
-  match app-id="kitty"
-  match title="kitty"
+  match app-id="com.mitchellh.ghostty"
 
   draw-border-with-background false
   opacity 1.0
@@ -297,7 +296,6 @@ window-rule {
     inactive-color "#000000"
   }
 }
-
 
 // Float rule
 window-rule {
@@ -407,7 +405,7 @@ binds {
     // Mod+Return { expand-column-to-available-width; }
 
     // Program binds
-    Mod+T      hotkey-overlay-title="Open a Terminal: Alacritty"   { spawn "alacritty"; }
+    Mod+T      hotkey-overlay-title="Open a Terminal: Ghostty"     { spawn "ghostty" "--class=com.mitchellh.ghostty"; }
     Mod+R      hotkey-overlay-title="Run an Application: Rofi" { spawn "rofi" "-show" "drun"; }
     Mod+F      hotkey-overlay-title="Open File Manager"        { spawn "thunar"; }
     Mod+B      hotkey-overlay-title="Open Browser"             { spawn "zen-browser"; }
@@ -418,8 +416,8 @@ binds {
     Mod+A      hotkey-overlay-title="Open Anki"                { spawn "anki"; }
     Mod+I      hotkey-overlay-title="Open Ticktick"            { spawn "ticktick"; }
     Mod+N      hotkey-overlay-title="Open Notification Center" { spawn "swaync-client" "-t" "-sw"; }
-    Mod+E      hotkey-overlay-title="Open Yazi"                { spawn "kitty" "-e" "zsh" "-ic" "yazi"; }
-    Mod+M      hotkey-overlay-title="Open Btop"                { spawn "kitty" "-e" "zsh" "-ic" "btop"; }
+    Mod+E      hotkey-overlay-title="Open Yazi"                { spawn "ghostty" "--class=yazi" "-e" "zsh" "-ic" "yazi"; }
+    Mod+M      hotkey-overlay-title="Open Btop"                { spawn "ghostty" "--class=btop" "-e" "zsh" "-ic" "btop"; }
     Mod+KP_ADD hotkey-overlay-title="Calculator"               { spawn "galculator"; }
 
     // Scratchpads
