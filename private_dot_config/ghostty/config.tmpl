@@ -2,7 +2,7 @@
 # Theme
 # ============================================================
 
-theme = Gruvbox Light
+theme = {{ if eq .chezmoi.hostname "dabai-arch" }}noctalia{{ else }}Gruvbox Light{{ end }}
 window-theme = light
 
 # ============================================================

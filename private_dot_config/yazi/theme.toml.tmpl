@@ -7,16 +7,20 @@
 
 # vim:fileencoding=utf-8:foldmethod=marker
 
-# : Flavor {{{
+# : Flavor
 
 [flavor]
+{{ if eq .chezmoi.hostname "dabai-arch" -}}
 dark  = "noctalia"
 light = "noctalia"
+{{- else -}}
+dark  = "gruvbox-dark"
+light = "flexoki-light"
+{{- end }}
 
-# : }}}
 
 
-# : Manager {{{
+# : Manager
 
 [mgr]
 cwd = { fg = "cyan" }
@@ -50,10 +54,9 @@ border_style  = { fg = "gray" }
 # Highlighting
 syntect_theme = ""
 
-# : }}}
 
 
-# : Tabs {{{
+# : Tabs
 
 [tabs]
 active   = { bg = "blue", bold = true }
@@ -63,10 +66,9 @@ inactive = { fg = "blue", bg = "gray" }
 sep_inner = { open = "", close = "" }
 sep_outer = { open = "", close = "" }
 
-# : }}}
 
 
-# : Mode {{{
+# : Mode
 
 [mode]
 normal_main = { bg = "blue", bold = true }
@@ -80,10 +82,9 @@ select_alt  = { fg = "red", bg = "gray" }
 unset_main = { bg = "red", bold = true }
 unset_alt  = { fg = "red", bg = "gray" }
 
-# : }}}
 
 
-# : Status bar {{{
+# : Status bar
 
 [status]
 overall   = {}
@@ -102,10 +103,9 @@ progress_label  = { bold = true }
 progress_normal = { fg = "blue", bg = "black" }
 progress_error  = { fg = "red", bg = "black" }
 
-# : }}}
 
 
-# : Which {{{
+# : Which
 
 [which]
 cols            = 3
@@ -116,10 +116,9 @@ desc            = { fg = "lightmagenta" }
 separator       = "  "
 separator_style = { fg = "darkgray" }
 
-# : }}}
 
 
-# : Confirmation {{{
+# : Confirmation
 
 [confirm]
 border     = { fg = "blue" }
@@ -130,10 +129,9 @@ btn_yes    = { reversed = true }
 btn_no     = {}
 btn_labels = [ "  [Y]es  ", "  (N)o  " ]
 
-# : }}}
 
 
-# : Spotter {{{
+# : Spotter
 
 [spot]
 border = { fg = "blue" }
@@ -143,10 +141,9 @@ title  = { fg = "blue" }
 tbl_col  = { fg = "blue" }
 tbl_cell = { fg = "yellow", reversed = true }
 
-# : }}}
 
 
-# : Notification {{{
+# : Notification
 
 [notify]
 title_info  = { fg = "green" }
@@ -158,20 +155,18 @@ icon_info  = ""
 icon_warn  = ""
 icon_error = ""
 
-# : }}}
 
 
-# : Picker {{{
+# : Picker
 
 [pick]
 border   = { fg = "blue" }
 active   = { fg = "magenta", bold = true }
 inactive = {}
 
-# : }}}
 
 
-# : Input {{{
+# : Input
 
 [input]
 border   = { fg = "blue" }
@@ -179,10 +174,9 @@ title    = {}
 value    = {}
 selected = { reversed = true }
 
-# : }}}
 
 
-# : Completion {{{
+# : Completion
 
 [cmp]
 border   = { fg = "blue" }
@@ -194,20 +188,18 @@ icon_file    = ""
 icon_folder  = ""
 icon_command = ""
 
-# : }}}
 
 
-# : Task manager {{{
+# : Task manager
 
 [tasks]
 border  = { fg = "blue" }
 title   = {}
 hovered = { fg = "magenta", underline = true }
 
-# : }}}
 
 
-# : Help menu {{{
+# : Help menu
 
 [help]
 on      = { fg = "cyan" }
@@ -216,10 +208,9 @@ desc    = {}
 hovered = { reversed = true, bold = true }
 footer  = { fg = "black", bg = "white" }
 
-# : }}}
 
 
-# : File-specific styles {{{
+# : File-specific styles
 
 [filetype]
 rules = [
@@ -251,10 +242,9 @@ rules = [
 	{ name = "*/", fg = "blue" }
 ]
 
-# : }}}
 
 
-# : Icons {{{
+# : Icons
 
 [icon]
 globs = []
@@ -955,4 +945,3 @@ conds = [
 	{ if = "!dir", text = "" },
 ]
 
-# : }}}
