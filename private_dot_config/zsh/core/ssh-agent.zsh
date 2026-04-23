@@ -3,7 +3,7 @@
 # This file is sourced from .zshenv so non-interactive shells can also resolve
 # the preferred agent socket before invoking git/ssh.
 
-if [[ -n "${__ZSH_CORE_SSH_AGENT_LOADED:-}" ]]; then
+if [[ -n "${__ZSH_CORE_SSH_AGENT_LOADED:-}" && -S "${SSH_AUTH_SOCK:-}" ]]; then
   return 0
 fi
 export __ZSH_CORE_SSH_AGENT_LOADED=1
