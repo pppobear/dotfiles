@@ -3,10 +3,22 @@
 
 # Guard against duplicate loading. This file is sourced from .zshenv and must
 # stay cheap for every shell; interactive shells should not re-run it.
-if [[ -n "${__ZSH_CORE_ENVIRONMENT_LOADED:-}" ]]; then
+if [[ "${__ZSH_CORE_ENVIRONMENT_LOADED:-}" == "$$" ]]; then
   return 0
 fi
-export __ZSH_CORE_ENVIRONMENT_LOADED=1
+typeset -g __ZSH_CORE_ENVIRONMENT_LOADED="$$"
+
+_path_prepend() {
+  local dir="$1"
+  path=("${(@)path:#$dir}")
+  path=("$dir" $path)
+}
+
+_path_append() {
+  local dir="$1"
+  path=("${(@)path:#$dir}")
+  path+=("$dir")
+}
 
 # Locale
 export LANG=zh_CN.UTF-8
@@ -36,13 +48,13 @@ export XDG_TEMPLATES_DIR="$HOME/Templates"
 export XDG_VIDEOS_DIR="$HOME/Videos"
 
 # Terminal
-# Let the terminal emulator expose its native TERM; forcing xterm-256color
-# breaks Ghostty feature detection and can confuse tmux/app key handling.
+# Do not override TERM here. Ghostty is configured to use xterm-256color for
+# compatibility, while TERM_PROGRAM/LC_TERMINAL carry the terminal identity for
+# tools that care about the emulator.
 #
 # Some tools only inspect TERM_PROGRAM/LC_TERMINAL and lose Ghostty detection
 # once they are launched inside tmux. Ghostty exposes a stable marker via
-# GHOSTTY_RESOURCES_DIR, so use that to restore the outer terminal identity
-# without touching TERM itself.
+# GHOSTTY_RESOURCES_DIR, so use that to restore the outer terminal identity.
 if [[ -n "${GHOSTTY_RESOURCES_DIR:-}" || "${TERM:-}" == "xterm-ghostty" || "${TERM_PROGRAM:-}" == "ghostty" ]]; then
   export LC_TERMINAL="${LC_TERMINAL:-ghostty}"
 
@@ -58,16 +70,27 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
   export HOMEBREW_PREFIX="/opt/homebrew"
   export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
   export HOMEBREW_REPOSITORY="/opt/homebrew"
-  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+  _path_prepend "/opt/homebrew/sbin"
+  _path_prepend "/opt/homebrew/bin"
 elif [[ -x /usr/local/bin/brew ]]; then
   export HOMEBREW_PREFIX="/usr/local"
   export HOMEBREW_CELLAR="/usr/local/Cellar"
   export HOMEBREW_REPOSITORY="/usr/local/Homebrew"
-  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+  _path_prepend "/usr/local/sbin"
+  _path_prepend "/usr/local/bin"
 fi
 
 # Common paths
-export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+_path_prepend "$HOME/bin"
+_path_prepend "$HOME/.local/bin"
+
+# asdf shims are needed in non-interactive shells too, so tools like Codex can
+# find java/maven without waiting for interactive .zshrc integrations.
+_asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
+if [[ -d "$_asdf_data_dir/shims" ]]; then
+  _path_prepend "$_asdf_data_dir/shims"
+fi
+unset _asdf_data_dir
 
 # Development
 export GITHUB_USERNAME=pppobear
@@ -77,19 +100,18 @@ fi
 
 # Go
 export GOPATH="$HOME/go"
-export PATH="$PATH:$GOPATH/bin"
+_path_append "$GOPATH/bin"
 
 # Rust
-export PATH="$PATH:$HOME/.cargo/bin"
+_path_append "$HOME/.cargo/bin"
 
 # Snap (仅在未包含时追加)
-case ":$PATH:" in
-  *":/snap/bin:"*) ;;
-  *) export PATH="$PATH:/snap/bin" ;;
-esac
+_path_append "/snap/bin"
 
 # Bat theme
-export BAT_THEME="gruvbox-light"
+export BAT_THEME="Catppuccin Mocha"
 
 # opencode
-export PATH="$HOME/.opencode/bin:$PATH"
+_path_prepend "$HOME/.opencode/bin"
+
+unfunction _path_prepend _path_append

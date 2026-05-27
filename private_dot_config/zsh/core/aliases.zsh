@@ -20,20 +20,21 @@ alias mkdir='mkdir -p'
 
 # ls/eza aliases
 if command -v eza >/dev/null 2>&1; then
-  alias ls='eza --all --icons=always --color=always --group-directories-first'
-  alias ll='eza -al --no-time --no-user --no-permissions --no-filesize --icons=always --color=always --group-directories-first'
-  alias la='eza -la --icons=always --color=always --group-directories-first'
+  alias ls='eza --icons=always --color=always --group-directories-first'
+  alias la='eza -a --icons=always --color=always --group-directories-first'
+  alias ll='eza -la --git --icons=always --color=always --group-directories-first'
   alias lt='eza --tree --icons=always --color=always --group-directories-first'
   alias ld='eza -lD --icons=always --color=always'
+elif command -v gls >/dev/null 2>&1; then
+  alias ls='gls --color=auto --group-directories-first'
+  alias la='gls -A --color=auto --group-directories-first'
+  alias ll='gls -lah --color=auto --group-directories-first'
 else
-  alias ls='ls --color=auto'
-  alias ll='ls -lah'
+  alias ls='ls -G'
   alias la='ls -A'
+  alias ll='ls -lah'
 fi
 
 # Clear screen
 alias c='clear'
 alias cls='clear'
-
-# bat
-alias cat='bat'

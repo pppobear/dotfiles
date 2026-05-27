@@ -15,6 +15,9 @@ docs/
 # repeated "has changed since chezmoi last wrote it" prompts on apply.
 .claude/settings.json
 
+
+# Neovim config is managed by its own repository
+.config/nvim
 {{- if ne .chezmoi.os "linux" }}
 .config/niri
 .config/rofi

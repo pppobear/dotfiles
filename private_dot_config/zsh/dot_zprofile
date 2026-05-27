@@ -1,0 +1,20 @@
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+if [[ "${__ZSH_ORBSTACK_LOADED:-}" != "$$" && -f "$HOME/.orbstack/shell/init.zsh" ]]; then
+  source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+  typeset -gU path fpath
+  typeset -g __ZSH_ORBSTACK_LOADED="$$"
+fi
+
+# asdf shims for login shells after /etc/zprofile path_helper resets PATH.
+_asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
+if [[ -d "$_asdf_data_dir/shims" ]]; then
+  path=("${(@)path:#$_asdf_data_dir/shims}")
+  path=("$_asdf_data_dir/shims" $path)
+fi
+if [[ -f "$_asdf_data_dir/plugins/java/set-java-home.zsh" ]]; then
+  source "$_asdf_data_dir/plugins/java/set-java-home.zsh"
+  typeset -f asdf_update_java_home >/dev/null 2>&1 && asdf_update_java_home >/dev/null 2>&1
+fi
+unset _asdf_data_dir

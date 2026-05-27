@@ -2,3 +2,10 @@
 .omx/
 # CocoIndex Code (ccc)
 /.cocoindex_code/
+
+# Generated zsh completion dump
+private_dot_config/zsh/.zcompdump
+private_dot_config/zsh/.zcompdump*
+
+# Neovim config is managed by its own repository
+private_dot_config/nvim/

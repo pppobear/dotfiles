@@ -29,7 +29,10 @@ esac
 
 # bun (Linux)
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+case ":$PATH:" in
+  *":$BUN_INSTALL/bin:"*) ;;
+  *) export PATH="$BUN_INSTALL/bin:$PATH" ;;
+esac
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # Pywal colors
