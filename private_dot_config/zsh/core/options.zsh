@@ -36,6 +36,13 @@ setopt EXTENDED_GLOB           # Extended globbing
 # Key bindings (Emacs mode)
 bindkey -e
 
+# tmux/Ghostty CSI-u extended key compatibility. When tmux extended-keys is
+# enabled for tools such as pi, some Ctrl keys can arrive as CSI-u sequences.
+# Map the common shell-editing keys back to their normal ZLE widgets.
+bindkey $'\e[97;5u' beginning-of-line       # C-a
+bindkey $'\e[117;5u' backward-kill-line     # C-u
+bindkey $'\e[108;5u' clear-screen           # C-l
+
 # Configure word boundaries for Ctrl+W
 # Remove '/' so that Ctrl+W stops at path separators (/a/b/c → /a/b/)
 WORDCHARS=${WORDCHARS//\/}

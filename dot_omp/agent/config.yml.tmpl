@@ -1,0 +1,39 @@
+lastChangelogVersion: 15.7.6
+debug:
+  enabled: true
+disabledProviders:
+  - claude
+  - claude-plugins
+  - cursor
+modelRoles:
+  default: openai-codex/gpt-5.3-codex-spark:high
+  main: openai-codex/gpt-5.5:medium
+  smol: openai-codex/gpt-5.4-mini:low
+  slow: openai-codex/gpt-5.5:xhigh
+  plan: litellm/claude-opus-4-7:xhigh
+cycleOrder:
+  - slow
+  - default
+  - smol
+symbolPreset: nerd
+statusLine:
+  separator: powerline-thin
+memory:
+  backend: hindsight
+edit:
+  mode: hashline
+theme:
+  light: light
+  dark: titanium
+hideThinkingBlock: false
+defaultThinkingLevel: auto
+display:
+  shimmer: kitt
+hindsight:
+  apiUrl: https://hindsight-api.idx99.top
+  scoping: per-project-tagged
+  apiToken: {{ (rbw "Hindsight MCP API Key (idx99.top)").data.password | quote }}
+  bankId: "个人助手"
+providers:
+  webSearch: codex
+setupVersion: 1
