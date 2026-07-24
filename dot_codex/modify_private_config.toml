@@ -1,14 +1,39 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $lines := .chezmoi.stdin | splitList "\n" -}}
-{{- $remainingLines := slice $lines (min (len $lines) 10) -}}
-model_provider = "yescode"
-model = "gpt-5.1-codex-max"
-model_reasoning_effort = "high"
+{{- $remainingLines := slice $lines (min (len $lines) 20) -}}
+{{- $tail := join "\n" $remainingLines -}}
+personality = "pragmatic"
+approvals_reviewer = "guardian_subagent"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "xhigh"
+# model_provider = "apirouter"
 
-[model_providers.yescode]
-name = "yescode"
-base_url = "https://co.yes.vg/team/v1"
+mcp_oauth_credentials_store = "file"
+
+notify = ["/Users/enoch/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+base_url = "http://127.0.0.1:15721/v1"
 wire_api = "responses"
-env_key = "YESCODE_API_KEY"
+experimental_bearer_token = "PROXY_MANAGED"
+{{- if not (contains "[model_providers.apirouter]" $tail) }}
 
-{{ join "\n" $remainingLines }}
+[model_providers.apirouter]
+name = "OpenAI via OMP LiteLLM"
+base_url = "https://litellm.wenext.technology/v1"
+experimental_bearer_token = {{ (rbwFields "litellm.wenext.technology").api_key.value | quote }}
+wire_api = "responses"
+supports_websockets = false
+{{- end }}
+{{- if not (contains "[marketplaces.openviking-plugins-local]" $tail) }}
+
+[marketplaces.openviking-plugins-local]
+source_type = "local"
+source = "/Users/enoch/.codex/openviking-plugins-local-marketplace"
+{{- end }}
+{{- if not (contains "[plugins.\"openviking-memory@openviking-plugins-local\"]" $tail) }}
+
+[plugins."openviking-memory@openviking-plugins-local"]
+enabled = true
+{{- end }}
+{{ $tail }}

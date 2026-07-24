@@ -1,0 +1,157 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "diff_view_style": "unified",
+  "buffer_line_height": "standard",
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "ui_font_family": "PingFang SC",
+  "buffer_font_family": "Maple Mono NF CN",
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "agent_servers": {
+    "codex-acp": {
+      "default_config_options": {
+        "model": "gpt-5.5"
+      },
+      "type": "registry"
+    },
+    "pi-acp": {
+      "default_model": "openai-codex/gpt-5.5",
+      "type": "registry"
+    },
+    "omp": {
+      "type": "custom",
+      "command": "/Users/enoch/.bun/bin/omp",
+      "args": ["acp"]
+    },
+    "pi-wn": {
+      "default_model": "openai-codex/gpt-5.5",
+      "type": "custom",
+      "command": "/Users/enoch/.asdf/installs/nodejs/25.8.1/bin/pi-acp",
+      "env": {
+        "PI_CODING_AGENT_DIR": "/Users/enoch/.pi/agent-wn"
+      }
+    },
+    "pi-f": {
+      "default_model": "openai-codex/gpt-5.4-mini",
+      "type": "custom",
+      "command": "/Users/enoch/.asdf/installs/nodejs/25.8.1/bin/pi-acp",
+      "env": {
+        "PI_CODING_AGENT_DIR": "/Users/enoch/.pi/agent-f"
+      }
+    },
+    "opencode": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+  "ssh_connections": [
+    {
+      "host": "192.168.5.23",
+      "username": "enoch",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/enoch/Projects/zhenxin/fungo-service/"
+          ]
+        }
+      ],
+      "nickname": "DevFedora"
+    }
+  ],
+  "language_models": {
+    "opencode": {
+      "show_go_models": true,
+      "show_zen_models": false
+    },
+    "google": {
+      "api_url": "https://co.yes.vg/team/gemini"
+    }
+  },
+  "agent": {
+    "dock": "left",
+    "default_model": {
+      "speed": "fast",
+      "effort": "medium",
+      "enable_thinking": true,
+      "provider": "openai-subscribed",
+      "model": "gpt-5.5"
+    },
+    "model_parameters": []
+  },
+  "git_panel": {
+    "dock": "right",
+    "tree_view": true,
+    "sort_by_path": false
+  },
+  "format_on_save": "off",
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "edit_predictions": {
+    "provider": "none",
+    "mode": "subtle"
+  },
+  "vim_mode": true,
+  "base_keymap": "VSCode",
+  "ui_font_size": 16,
+  "buffer_font_size": 13.0,
+  "theme": {
+    "mode": "dark",
+    "light": "Everforest Light Soft (material)",
+    "dark": "Catppuccin Mocha"
+  },
+  "lsp": {
+    "jdtls": {
+      "settings": {
+        "java_home": "/Users/enoch/.asdf/installs/java/zulu-21.46.19/zulu-21.jdk/Contents/Home",
+        "lombok_support": true,
+        "jdtls_launcher": "/Users/enoch/.local/bin/jdtls"
+      },
+      "initialization_options": {
+        "bundles": [],
+        "settings": {
+          "java": {
+            "home": "/Users/enoch/.asdf/installs/java/zulu-21.46.19/zulu-21.jdk/Contents/Home",
+            "configuration": {
+              "maven": {
+                "globalSettings": null,
+                "userSettings": "/Users/enoch/.m2/settings.xml"
+              }
+            },
+            "maven": {
+              "downloadSources": true
+            },
+            "import": {
+              "maven": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

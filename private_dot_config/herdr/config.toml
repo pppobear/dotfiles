@@ -1,0 +1,106 @@
+onboarding = false
+
+[theme]
+name = "catppuccin"
+
+[keys]
+switch_tab = "alt+1..9"
+
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "nathanflurry.jj-workspace.new"
+description = "new jj workspace"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "nathanflurry.jj-workspace.new-tab"
+description = "new jj workspace (in tab)"
+
+[[keys.command]]
+key = "prefix+d"
+type = "plugin_action"
+command = "nathanflurry.jj-workspace.remove"
+description = "remove jj workspace"
+
+[[keys.command]]
+key = "prefix+f"
+type = "shell"
+command = '''
+source_json="$(herdr pane current --current)" || exit $?
+eval "$(PREFIXF_SOURCE_JSON="$source_json" python3 - <<'PY'
+import json, os, shlex
+pane = json.loads(os.environ['PREFIXF_SOURCE_JSON'])['result']['pane']
+session = pane.get('agent_session') or {}
+pairs = {
+    'HERDR_PREFIXF_LAUNCH': '1',
+    'HERDR_LEFT_PANE_ID': pane.get('pane_id', ''),
+    'HERDR_LEFT_WORKSPACE_ID': pane.get('workspace_id', ''),
+    'HERDR_LEFT_TAB_ID': pane.get('tab_id', ''),
+    'HERDR_LEFT_TERMINAL_ID': pane.get('terminal_id', ''),
+    'HERDR_LEFT_CWD': pane.get('cwd', ''),
+    'HERDR_LEFT_FOREGROUND_CWD': pane.get('foreground_cwd', ''),
+    'HERDR_LEFT_AGENT': pane.get('agent', ''),
+    'HERDR_LEFT_AGENT_STATUS': pane.get('agent_status', ''),
+    'HERDR_LEFT_AGENT_SESSION': session.get('value', ''),
+    'HERDR_LEFT_AGENT_SESSION_KIND': session.get('kind', ''),
+    'HERDR_LEFT_AGENT_SESSION_SOURCE': session.get('source', ''),
+}
+for key, value in pairs.items():
+    print(f'export {key}={shlex.quote(str(value))}')
+PY
+)"
+
+json="$(herdr pane split --current --direction right --ratio 0.5 --focus)" || exit $?
+pane="$(printf '%s' "$json" | python3 -c 'import json,sys
+
+def walk(x):
+    if isinstance(x, dict):
+        if "pane_id" in x:
+            print(x["pane_id"]); raise SystemExit
+        for v in x.values(): walk(v)
+    elif isinstance(x, list):
+        for v in x: walk(v)
+walk(json.load(sys.stdin))
+')"
+if [ -z "$pane" ]; then
+  printf 'herdr prefix+f: failed to parse pane_id from split result\n%s\n' "$json" >&2
+  exit 1
+fi
+
+run_cmd="$(python3 - <<'PY'
+import os, shlex
+keys = [
+    'HERDR_PREFIXF_LAUNCH',
+    'HERDR_LEFT_PANE_ID',
+    'HERDR_LEFT_WORKSPACE_ID',
+    'HERDR_LEFT_TAB_ID',
+    'HERDR_LEFT_TERMINAL_ID',
+    'HERDR_LEFT_CWD',
+    'HERDR_LEFT_FOREGROUND_CWD',
+    'HERDR_LEFT_AGENT',
+    'HERDR_LEFT_AGENT_STATUS',
+    'HERDR_LEFT_AGENT_SESSION',
+    'HERDR_LEFT_AGENT_SESSION_KIND',
+    'HERDR_LEFT_AGENT_SESSION_SOURCE',
+]
+env = {'PI_CODING_AGENT_DIR': os.path.expanduser('~/.pi/agent-f')}
+for key in keys:
+    value = os.environ.get(key)
+    if value:
+        env[key] = value
+parts = ['exec', 'env'] + [f'{key}={shlex.quote(value)}' for key, value in env.items()] + ['pi', '--name', shlex.quote('herdr prefix-f')]
+print(' '.join(parts))
+PY
+)"
+herdr pane run "$pane" "$run_cmd"
+'''
+description = "open pi-f in right pane with left-pane context env"
+
+[ui]
+agent_panel_sort = "spaces"
+show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "terminal"

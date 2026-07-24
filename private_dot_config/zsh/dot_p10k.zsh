@@ -35,6 +35,7 @@
     os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
+    jj                      # jujutsu change id
     # =========================[ Line #2 ]=========================
     newline                 # \n
     prompt_char             # prompt symbol
@@ -1649,6 +1650,17 @@
   # Custom prefix.
   # typeset -g POWERLEVEL9K_TIME_PREFIX='%fat '
 
+
+  # Jujutsu prompt segment backed by the Oh My Zsh jj plugin.
+  function prompt_jj() {
+    (( $+functions[jj_prompt_template] )) || return
+
+    local content
+    content=$(jj_prompt_template '"@ " ++ change_id.shortest(4) ++ if(bookmarks, " " ++ bookmarks.join(","), "") ++ if(empty, " empty", "") ++ if(conflict, " conflict", "") ++ if(description, " · " ++ description.first_line(), " · no desc")') || return
+    [[ -n "$content" ]] || return
+
+    p10k segment -f 133 -i 'jj' -t "$content"
+  }
   # Example of a user-defined prompt segment. Function prompt_example will be called on every
   # prompt if `example` prompt segment is added to POWERLEVEL9K_LEFT_PROMPT_ELEMENTS or
   # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS. It displays an icon and orange text greeting the user.

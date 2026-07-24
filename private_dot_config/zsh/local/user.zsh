@@ -26,6 +26,7 @@
 
 # Custom scripts path
 [ -d "$HOME/scripts" ] && export PATH="$HOME/scripts:$PATH"
+[ -d "$HOME/.kimi-code/bin" ] && export PATH="$HOME/.kimi-code/bin:$PATH"
 
 # Ghostty defaults to TERM=xterm-ghostty, but many jump hosts and older
 # servers do not ship that terminfo entry. Downgrade TERM only for outbound
@@ -41,4 +42,8 @@ ssh() {
 
 
 # Load machine-local shell customizations that should not be managed by chezmoi.
+# OpenViking Codex recall tuning. Credentials are read at runtime from ~/.openviking/ovcli.conf.
+export OPENVIKING_RECALL_COMPRESS='1'
+export OPENVIKING_RECALL_COMPRESS_THINKING='default'
+
 [ -f "$ZDOTDIR/local/local-only.zsh" ] && source "$ZDOTDIR/local/local-only.zsh"

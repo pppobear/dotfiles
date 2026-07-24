@@ -49,7 +49,8 @@ cursor-click-to-move = true
 # Scrollback & Mouse
 # ============================================================
 
-scrollback-limit = 20000
+# Ghostty uses bytes here; keep enough history for large tree outputs.
+scrollback-limit = 100000000
 link-url = true
 mouse-scroll-multiplier = 5
 mouse-hide-while-typing = true

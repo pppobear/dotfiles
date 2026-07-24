@@ -10,6 +10,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   aliases
   git
+  jj
   zsh-completions
   # Keep fzf-tab at the end so it remains the last plugin to bind Tab.
   fzf-tab
@@ -41,4 +42,7 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]] && [[ -d "${HOMEBREW_PREFIX}/share/zsh/site-f
   FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
 fi
 
+
+# Keep jj prompt helpers fast in large workspaces.
+zstyle ':omz:plugins:jj' ignore-working-copy yes
 source $ZSH/oh-my-zsh.sh

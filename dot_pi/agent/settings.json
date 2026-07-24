@@ -1,0 +1,19 @@
+{
+  "lastChangelogVersion": "0.78.1",
+  "defaultProvider": "litellm",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "medium",
+  "theme": "dark",
+  "enabledModels": [
+    "openai-codex/gpt-5.5",
+    "openai-codex/gpt-5.4-mini",
+    "openai-codex/gpt-5.3-codex-spark",
+    "litellm/*"
+  ],
+  "hideThinkingBlock": false,
+  "packages": [
+    "../../projects/pi-orchestrator",
+    "npm:pi-simplify",
+    "../../projects/pppobear/pi-terminal-sessions"
+  ]
+}

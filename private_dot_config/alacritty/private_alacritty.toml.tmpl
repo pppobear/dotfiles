@@ -119,7 +119,7 @@ alphabet = "jfkdls;ahgurieowpq"
 # URL regex pattern
 regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
 hyperlinks = true
-command = "xdg-open"
+command = "{{ if eq .chezmoi.os "darwin" }}open{{ else }}xdg-open{{ end }}"
 post_processing = true
 persist = false
 # Shift+click to open URLs (matches kitty open_url_modifiers shift)
