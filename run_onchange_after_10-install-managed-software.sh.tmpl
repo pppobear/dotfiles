@@ -190,13 +190,19 @@ case "$OS" in
     install_formula "{{ . }}"
     {{- end }}
 
-    {{- range .packages.darwin.casks }}
-    install_cask "{{ . }}"
-    {{- end }}
+    # enoch-mbp-3 has handed this cask/font catalog to nix-darwin. Keep the
+    # shared catalog active for Darwin hosts that have not migrated yet.
+    if [ "$(hostname -s)" = "enoch-mbp-3" ]; then
+      log "跳过 Homebrew cask/font：当前主机已由 nix-darwin 管理。"
+    else
+      {{- range .packages.darwin.casks }}
+      install_cask "{{ . }}"
+      {{- end }}
 
-    {{- range .packages.darwin.fonts }}
-    install_cask "{{ . }}"
-    {{- end }}
+      {{- range .packages.darwin.fonts }}
+      install_cask "{{ . }}"
+      {{- end }}
+    fi
 
     {{- range .packages.darwin.custom }}
     install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
