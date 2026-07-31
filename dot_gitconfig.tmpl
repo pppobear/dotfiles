@@ -54,8 +54,9 @@
 [gpg]
 	format = ssh
 {{- if eq .chezmoi.os "darwin" }}
+{{- $ghHost := get .git.github.credential_helper "host" | default dict }}
 {{- $ghPlatform := get .git.github.credential_helper "darwin" | default dict }}
-{{- $ghBinary := get $ghPlatform .chezmoi.arch | default (get $ghPlatform "default") }}
+{{- $ghBinary := get $ghHost .chezmoi.hostname | default (get $ghPlatform .chezmoi.arch) | default (get $ghPlatform "default") }}
 {{- if $ghBinary }}
 {{- $ghCredentialHelper := printf "!%s auth git-credential" $ghBinary }}
 [credential "https://github.com"]

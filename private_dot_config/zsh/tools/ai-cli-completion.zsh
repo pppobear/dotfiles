@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Claude/Codex/GitHub/Chezmoi CLI completions
+# Cached completions for CLIs that generate their own zsh definitions
 
 _zsh_config_dir="${ZDOTDIR:-$HOME/.config/zsh}"
 _zsh_completion_dir="${_zsh_config_dir}/completions"
@@ -42,6 +42,18 @@ if command -v gh >/dev/null 2>&1; then
   _gh_completion="${_zsh_cache_dir}/gh_completion.zsh"
   _cache_completion "$_gh_completion" "gh completion --shell zsh" "_gh" "gh"
   unset _gh_completion
+fi
+
+if command -v uv >/dev/null 2>&1; then
+  _uv_completion="${_zsh_cache_dir}/uv_completion.zsh"
+  _cache_completion "$_uv_completion" "uv generate-shell-completion zsh" "_uv" "uv"
+  unset _uv_completion
+fi
+
+if command -v uvx >/dev/null 2>&1; then
+  _uvx_completion="${_zsh_cache_dir}/uvx_completion.zsh"
+  _cache_completion "$_uvx_completion" "uvx --generate-shell-completion zsh" "_uvx" "uvx"
+  unset _uvx_completion
 fi
 
 if command -v chezmoi >/dev/null 2>&1; then

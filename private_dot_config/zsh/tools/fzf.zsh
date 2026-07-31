@@ -6,10 +6,14 @@ if ! command -v fzf >/dev/null 2>&1; then
   return 0
 fi
 
-# Lightweight key bindings. Completion should come from Homebrew/site-functions
-# via compinit, so avoid the heavier `eval "$(fzf --zsh)"` startup path.
+# Lightweight key bindings. Completion should come from zsh site-functions via
+# compinit, so avoid the heavier `eval "$(fzf --zsh)"` startup path.
 if [[ -n "${HOMEBREW_PREFIX:-}" ]] && [[ -f "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh" ]]; then
   source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
+elif command -v fzf-share >/dev/null 2>&1; then
+  _fzf_share="$(fzf-share)"
+  [[ -f "$_fzf_share/key-bindings.zsh" ]] && source "$_fzf_share/key-bindings.zsh"
+  unset _fzf_share
 elif [[ -f "$HOME/.fzf/shell/key-bindings.zsh" ]]; then
   source "$HOME/.fzf/shell/key-bindings.zsh"
 fi

@@ -6,6 +6,15 @@ packages:
       cask:
         adopt: true
     formulae:
+      - lazygit
+      - llvm
+      - neovim
+      - rbw
+      - thefuck
+      - tmux
+    # Home Manager owns these on enoch-mbp-3. Keep installing them on Darwin
+    # hosts that have not completed the Nix migration yet.
+    nix_migrated_formulae:
       - bat
       - btop
       - eza
@@ -14,14 +23,8 @@ packages:
       - fzf
       - gh
       - kubectl
-      - lazygit
-      - llvm
-      - neovim
-      - rbw
       - ripgrep
       - sesh
-      - thefuck
-      - tmux
       - tree
       - yazi
       - zoxide

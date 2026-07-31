@@ -5,6 +5,8 @@ git:
     signingkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8fco8QeXWBNgSfLZoVqMvy4gaGZljj3ELyHS/6eBxs
   github:
     credential_helper:
+      host:
+        enoch-mbp-3: /etc/profiles/per-user/enoch/bin/gh
       darwin:
         default: /usr/local/bin/gh
         arm64: /opt/homebrew/bin/gh

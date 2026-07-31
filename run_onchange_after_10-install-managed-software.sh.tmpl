@@ -190,6 +190,16 @@ case "$OS" in
     install_formula "{{ . }}"
     {{- end }}
 
+    # Keep pre-Nix Darwin hosts bootstrappable while avoiding dual package
+    # ownership on the migrated MacBook Pro.
+    if [ "$(hostname -s)" = "enoch-mbp-3" ]; then
+      log "跳过已由 Home Manager 管理的 Homebrew formula。"
+    else
+      {{- range .packages.darwin.nix_migrated_formulae }}
+      install_formula "{{ . }}"
+      {{- end }}
+    fi
+
     # enoch-mbp-3 has handed this cask/font catalog to nix-darwin. Keep the
     # shared catalog active for Darwin hosts that have not migrated yet.
     if [ "$(hostname -s)" = "enoch-mbp-3" ]; then
