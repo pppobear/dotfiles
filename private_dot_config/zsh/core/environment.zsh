@@ -111,7 +111,4 @@ _path_append "/snap/bin"
 # Bat theme
 export BAT_THEME="Catppuccin Mocha"
 
-# opencode
-_path_prepend "$HOME/.opencode/bin"
-
 unfunction _path_prepend _path_append

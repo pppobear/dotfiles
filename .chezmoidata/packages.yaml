@@ -8,10 +8,8 @@ packages:
     formulae:
       - lazygit
       - llvm
-      - neovim
       - rbw
       - thefuck
-      - tmux
     # Home Manager owns these on enoch-mbp-3. Keep installing them on Darwin
     # hosts that have not completed the Nix migration yet.
     nix_migrated_formulae:
@@ -23,8 +21,10 @@ packages:
       - fzf
       - gh
       - kubectl
+      - neovim
       - ripgrep
       - sesh
+      - tmux
       - tree
       - yazi
       - zoxide

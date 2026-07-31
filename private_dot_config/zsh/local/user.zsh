@@ -26,7 +26,8 @@
 
 # Custom scripts path
 [ -d "$HOME/scripts" ] && export PATH="$HOME/scripts:$PATH"
-[ -d "$HOME/.kimi-code/bin" ] && export PATH="$HOME/.kimi-code/bin:$PATH"
+# Keep Kimi's bundled fallback tools behind Nix-managed commands such as rg.
+[ -d "$HOME/.kimi-code/bin" ] && export PATH="$PATH:$HOME/.kimi-code/bin"
 
 # Ghostty defaults to TERM=xterm-ghostty, but many jump hosts and older
 # servers do not ship that terminfo entry. Downgrade TERM only for outbound
