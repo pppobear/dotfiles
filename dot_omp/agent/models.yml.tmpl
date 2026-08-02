@@ -10,26 +10,42 @@ providers:
         compat:
           supportsReasoningEffort: false
     models:
-      - id: qwen3.6-flash
-        name: "Qwen 3.6 Flash"
-      - id: qwen3.6-max-preview
-        name: "Qwen 3.6 Max Preview"
-      - id: hy3-preview
-        name: "HY3 Preview"
-      - id: qwen3.6-plus
-        name: "Qwen 3.6 Plus"
-      - id: xipe/glm-5.2
-        name: "GLM 5.2"
-        contextWindow: 1000000
-        maxTokens: 128000
-        input:
-          - "text"
+      - id: claude-opus-4-7
+        name: "Claude Opus 4.7"
+        contextWindow: 200000
+        maxTokens: 32000
+      - id: gpt-5.4
+        name: "GPT 5.4"
+      - id: gpt-5.4-pro
+        name: "GPT 5.4 Pro"
+      - id: gpt-5.4-mini
+        name: "GPT 5.4 Mini"
+      - id: gpt-5.3-codex
+        name: "GPT 5.3 Codex"
+      - id: claude-sonnet-4-6
+        name: "Claude Sonnet 4.6"
+        contextWindow: 200000
+        maxTokens: 32000
+      - id: claude-haiku-4-5
+        name: "Claude Haiku 4.5"
+        contextWindow: 200000
+        maxTokens: 32000
       - id: gemini-3.1-pro-preview
         name: "Gemini 3.1 Pro Preview"
       - id: gemini-3-flash-preview
         name: "Gemini 3 Flash Preview"
       - id: gemini-2.5-flash-lite
         name: "Gemini 2.5 Flash Lite"
+      - id: qwen3.6-max-preview
+        name: "Qwen 3.6 Max Preview"
+      - id: qwen3.6-plus
+        name: "Qwen 3.6 Plus"
+      - id: qwen3.6-flash
+        name: "Qwen 3.6 Flash"
+      - id: glm-5.1
+        name: "GLM 5.1"
+      - id: hy3-preview
+        name: "HY3 Preview"
       - id: minimax-m2.7
         name: "MiniMax M2.7"
       - id: deepseek-v4-pro
@@ -40,73 +56,9 @@ providers:
         name: "Qwen 3.5 Flash"
       - id: kimi-k2.6
         name: "Kimi K2.6"
-      - id: xipe/claude-opus-4-8
-        name: "XIPE / Claude Opus 4.8"
-        contextWindow: 200000
-        maxTokens: 32000
       - id: deepseek-v4-flash-europe-endpoint
         name: "DeepSeek V4 Flash Europe Endpoint"
-      - id: gpt-5.5
-        name: "GPT 5.5"
-        reasoning: true
-        thinkingLevelMap:
-          minimal: null
-        input:
-          - "text"
-          - "image"
-        contextWindow: 272000
-        maxTokens: 128000
-      - id: codex-auto-review
-        name: "Codex Auto Review"
-      - id: gpt-5.4
-        name: "GPT 5.4"
-      - id: gpt-5.4-mini
-        name: "GPT 5.4 Mini"
-        reasoning: true
-        thinkingLevelMap:
-          minimal: null
-        input:
-          - "text"
-          - "image"
-        contextWindow: 272000
-        maxTokens: 128000
-      - id: claude-opus-4-8
-        name: "Claude Opus 4.8"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: claude-sonnet-4-6
-        name: "Claude Sonnet 4.6"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: claude-haiku-4-5
-        name: "Claude Haiku 4.5"
-        contextWindow: 200000
-        maxTokens: 32000
       - id: claude-opus-4-6
         name: "Claude Opus 4.6"
         contextWindow: 200000
         maxTokens: 32000
-      - id: claude-opus-4-7
-        name: "Claude Opus 4.7"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: gpt-5.3-codex-spark
-        name: "GPT 5.3 Codex Spark"
-      - id: xipe/claude-sonnet-4-6
-        name: "XIPE / Claude Sonnet 4.6"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: xipe/claude-haiku-4-5
-        name: "XIPE / Claude Haiku 4.5"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: xipe/claude-sonnet-5
-        name: "XIPE / Claude Sonnet 5"
-        contextWindow: 200000
-        maxTokens: 32000
-      - id: xipe/openai/glm-5.2
-        name: "XIPE / OpenAI / GLM 5.2"
-        contextWindow: 1000000
-        maxTokens: 128000
-        input:
-          - "text"

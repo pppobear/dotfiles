@@ -214,9 +214,13 @@ case "$OS" in
       {{- end }}
     fi
 
-    {{- range .packages.darwin.custom }}
-    install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
-    {{- end }}
+    if [ "$(hostname -s)" = "enoch-mbp-3" ]; then
+      log "跳过自定义安装器：Bun 和 pnpm 已由 Home Manager 管理。"
+    else
+      {{- range .packages.darwin.custom }}
+      install_custom '{{ .name }}' '{{ .check }}' '{{ .install }}'
+      {{- end }}
+    fi
     ;;
 
   Linux)

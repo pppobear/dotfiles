@@ -3,6 +3,7 @@ onboarding = false
 [theme]
 name = "catppuccin"
 
+auto_switch = false
 [keys]
 switch_tab = "alt+1..9"
 
@@ -99,8 +100,12 @@ herdr pane run "$pane" "$run_cmd"
 description = "open pi-f in right pane with left-pane context env"
 
 [ui]
-agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 show_agent_labels_on_pane_borders = true
 
 [ui.toast]
 delivery = "terminal"
+
+[experimental]
+switch_ascii_input_source_in_prefix = false
+pane_history = true

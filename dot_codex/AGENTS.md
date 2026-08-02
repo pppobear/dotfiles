@@ -1,47 +1,56 @@
-# AGENTS.md
+# Enoch Agent 规则 - 吸收版草案
 
-## Output
+用途：作为 Codex 类 agent 在 Enoch 本地工作时的共享硬规则。具体工作流细节放在 skills / prompts 中；本文件只保留长期稳定的行为约束。
 
-- 总是使用简体中文回答我
-- 不要附带 Emoji
+## 核心原则
 
-## Obsidian 外部记忆
+- 优先相信证据而不是猜测：源码、调用链、运行时配置、实时数据、CI 日志和精确 diff，都比注释或记忆更可靠。
+- 当用户给出仓库、分支、主机、UID、roomId、接口、字段、错误、PR、Jenkins URL 或命令时，把它当作主要定位线索。
+- 如果用户纠正了应用、环境、仓库、分支或字段含义，立即重新锚定，不再沿用旧假设。
+- 做根因分析时，先回答“是/否”和原因，再给证据，最后说明仍不确定的部分。
+- 对实现类请求，在可行时把闭环做完：编辑、验证、提交、推送、合并、Jenkins、观察结果；但只有用户明确要求时才执行提交、推送、合并等远端动作。
+- 不要保留兼容 shim，除非存在真实契约：公开 API / CLI / 配置 / 数据、升级路径、安全边界，或已观察到的生产状态。
 
-当用户明确要求使用 Obsidian 长期记忆，或任务本身属于个人知识库、Obsidian、AI memory 工作流时，使用以下协议。obsidian-cli 需要沙箱提权。
+## 路由
 
-### Vault
+- 仓库行为问题：沿真实入口 -> 校验 -> 路由 -> 归属模块 -> 共享 helper -> 持久化 / 网络 / 运行时边界追踪。
+- 运行时问题：先确认当前配置、进程 / 容器、环境、Redis / MySQL / ClickHouse 状态和日志，再下结论。
+- Jenkins 问题：使用用户提供的精确 build / queue / job；不要根据相近 job 或历史 build 推断成功。
+- JumpServer / SSH 巡检：使用精确资产名或关键词；不要编造前缀。生产检查保持只读，除非用户明确要求写入、停止或修复。
+- Codex / 本地工具问题：先检查本地状态文件和日志；Codex 认证 / 配置问题从 `~/.codex/auth.json`、`~/.codex/config.toml` 和相关日志开始。
+- 依赖浏览器登录态的 UI 问题：需要时使用真实已登录浏览器；隔离浏览器里的验证只能作为辅助证据。
 
-- 路径：`~/Documents/personal-vault`
+## Git
 
-### 启动时默认读取
+- 在仓库里改代码前，始终先检查 `git status -sb`。
+- 不要回滚用户或其他 agent 的改动，除非用户明确要求。
+- 不要使用破坏性 Git 命令，除非用户明确要求：`reset --hard`、`clean`、`restore`、覆盖式 checkout、大范围删除。
+- 只暂存明确路径。避免 `git add .`。
+- 只有用户意图覆盖这些操作时，才执行 push、merge、force-push 或切换分支。
+- 在 `ludo-service` / `game-platform` 系列仓库中，如果用户要求 main -> dev 集成并说明不要 cherry-pick，就把真实源分支 merge 到 dev，而不是用 cherry-pick 做最小化迁移。
 
-- `21-Memory/persona.md`
-- `21-Memory/projects.md`
-- `21-Memory/retrieval.md`
+## 验证
 
-### 条件读取
+- 证据范围要匹配结论范围。编译检查不能证明已部署；Jenkins build 不能证明运行时行为，除非目标 job 负责部署且已检查运行时。
+- 对用户可见的行为变更，如果仓库规范要求，应补充或更新文档 / changelog。
+- 对 bug 修复，如果存在有意义且成本合理的测试切入点，应增加回归测试。
+- 如果测试不能运行或证据不完整，要明确说明哪些内容未验证以及原因。
 
-- 如果任务明显属于某个项目，先从 `21-Memory/projects.md` 找入口，再读取 `30-Projects/` 中对应项目笔记
-- 如果任务与历史实现、架构取舍、旧约束相关，再读取 `21-Memory/decisions/` 中相关笔记
-- 如果任务是续做，再读取 `21-Memory/sessions/` 中最近且相关的笔记
+## 密钥与公开写入
 
-### 工具约束
+- 不要打印大范围环境变量、token、cookie、认证 header、私钥或完整凭据对象。
+- 只查询精确的 secret 名称，并报告结构 / 状态，不报告值。
+- 对公开 GitHub 正文写入，优先使用临时文件和 `--body-file`；写入前检查渲染文本。
+- 接触过含密钥的环境后，在执行公开写入命令前尽量 unset token 环境变量。
 
-- 对 Obsidian vault 中 `.md` 文件的所有读写操作，必须通过 `obsidian:obsidian-markdown` skill 执行
-- 对 vault 的搜索、任务管理、属性操作等，必须通过 `obsidian:obsidian-cli` skill 执行
-- 禁止使用 Read/Write/Edit 等通用文件工具直接操作 vault 文件，以确保 wikilinks、frontmatter、callouts 等 Obsidian 格式规范
+## 下游指针模式
 
-### 记忆写回规则
+仓库内 `AGENTS.MD` 推荐写成：
 
-- 当前进度、阻塞、下一步写入 `21-Memory/sessions/`
-- 稳定偏好写入 `21-Memory/persona.md`
-- 项目映射和入口写入 `21-Memory/projects.md`
-- 详细项目事实、约束、里程碑、当前状态写入 `30-Projects/`
-- 可复用的关键取舍写入 `21-Memory/decisions/`
+```text
+READ <path-to-this-file> BEFORE ANYTHING (skip if missing).
 
-### 约束
+Repo-specific rules go below.
+```
 
-- `21-Memory/projects.md` 只做轻量项目 mapping，不记录详细项目内容
-- 不要保存整段聊天逐字稿
-- 不要把临时调试输出、未确认猜测、一次性命令结果写入长期记忆
-- 如果没有明显相关的 session，创建新的 session note，而不是复用无关内容
+不要把本文件全文复制到每个仓库。仓库内规则应保持具体且简短。

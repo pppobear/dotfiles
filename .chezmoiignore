@@ -25,6 +25,33 @@ docs/
 .ssh/config
 Library/LaunchAgents/com.enoch.rbw-ssh-auth-sock.plist
 .local/bin/rbw-sync-ssh-auth-sock
+.config/tmux
+.config/yazi
+.config/lazygit
+.config/sesh
+.local/share/tmux/plugins/tpm
+.zshenv
+.hushlogin
+.ripgreprc
+.ideavimrc
+.config/zsh
+.oh-my-zsh
+.config/bat
+.config/btop
+.config/fastfetch
+.config/alacritty
+.config/ghostty
+.config/herdr
+.config/wezterm
+.config/zed
+.codex/AGENTS.md
+.claude/config.json
+.claude/skills/summarizing-conversations-to-obsidian
+.omp/agent/config.yml
+.omp/agent/models.yml
+.omp/agent/rules/verify-github-user-before-author-filter.md
+.pi/agent/models.json
+.pi/agent/settings.json
 {{- end }}
 {{- if ne .chezmoi.os "linux" }}
 .config/niri

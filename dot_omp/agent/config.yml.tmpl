@@ -1,39 +1,105 @@
-lastChangelogVersion: 15.7.6
 debug:
   enabled: true
 disabledProviders:
   - claude
   - claude-plugins
   - cursor
+  - opencode
+  - github
 modelRoles:
-  default: openai-codex/gpt-5.3-codex-spark:high
-  main: openai-codex/gpt-5.5:medium
-  smol: openai-codex/gpt-5.4-mini:low
-  slow: openai-codex/gpt-5.5:xhigh
-  plan: litellm/claude-opus-4-7:xhigh
+  smol: litellm/gpt-5.6-luna
+  slow: litellm/gpt-5.6-sol:xhigh
+  default: litellm/gpt-5.6-luna:max
+  plan: litellm/xipe/claude-fable-5
+  tiny: litellm/gpt-5.6-luna:low
+  vision: litellm/gpt-5.6-terra
+  designer: litellm/xipe/claude-fable-5
+  commit: litellm/gpt-5.6-luna:low
+  advisor: litellm/gpt-5.6-sol
+  task: litellm/gpt-5.6-terra
 cycleOrder:
   - slow
   - default
   - smol
+  - commit
 symbolPreset: nerd
 statusLine:
   separator: powerline-thin
+  sessionAccent: true
+  preset: compact
+  transparent: true
+  compactThinkingLevel: true
 memory:
-  backend: hindsight
+  backend: openviking
 edit:
   mode: hashline
 theme:
-  light: light
-  dark: titanium
+  light: light-forest
+  dark: dark-catppuccin
 hideThinkingBlock: false
 defaultThinkingLevel: auto
 display:
   shimmer: kitt
+  cacheMissMarker: true
+  showTokenUsage: true
 hindsight:
   apiUrl: https://hindsight-api.idx99.top
   scoping: per-project-tagged
   apiToken: {{ (rbw "Hindsight MCP API Key (idx99.top)").data.password | quote }}
-  bankId: "个人助手"
+  bankId: 个人助手
 providers:
-  webSearch: codex
+  tinyModel: online
+  tts: auto
 setupVersion: 1
+vault:
+  enabled: true
+dev:
+  autoqaConsent: granted
+autolearn:
+  enabled: false
+retry:
+  fallbackChains:
+    default:
+      - openai-codex/gpt-5.6-luna
+    smol:
+      - openai-codex/gpt-5.6-luna
+    slow:
+      - openai-codex/gpt-5.6-sol
+    vision:
+      - openai-codex/gpt-5.6-terra
+    plan:
+      - litellm/gpt-5.6-sol
+      - openai-codex/gpt-5.6-sol
+    designer:
+      - litellm/gpt-5.6-sol
+      - openai-codex/gpt-5.6-sol
+    commit:
+      - openai-codex/gpt-5.6-luna
+    tiny:
+      - openai-codex/gpt-5.6-luna
+    task:
+      - openai-codex/gpt-5.6-terra
+    advisor:
+      - openai-codex/gpt-5.6-sol
+colorBlindMode: false
+task:
+  showResolvedModelBadge: true
+images:
+  blockImages: false
+tools:
+  approvalMode: yolo
+bash:
+  autoBackground:
+    enabled: true
+bashInterceptor:
+  enabled: true
+github:
+  enabled: true
+disabledExtensions:
+  - skill:.system
+tui:
+  textSizing: true
+generate_image:
+  enabled: true
+inspect_image:
+  enabled: true
