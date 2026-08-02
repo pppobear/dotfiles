@@ -27,7 +27,7 @@ if command -v asdf >/dev/null 2>&1; then
 
   # Java home hook (asdf-java plugin) - only load when java is actually installed
   _asdf_java_home_hook="${ASDF_DATA_DIR}/plugins/java/set-java-home.zsh"
-  if [[ -f "$_asdf_java_home_hook" ]] && [[ -f "${ASDF_DATA_DIR}/shims/java" ]]; then
+  if [[ -z "${JAVA_HOME:-}" && -f "$_asdf_java_home_hook" ]] && [[ -f "${ASDF_DATA_DIR}/shims/java" ]]; then
     source "$_asdf_java_home_hook"
   fi
   unset _asdf_java_home_hook

@@ -13,7 +13,7 @@ if [[ -d "$_asdf_data_dir/shims" ]]; then
   path=("${(@)path:#$_asdf_data_dir/shims}")
   path=("$_asdf_data_dir/shims" $path)
 fi
-if [[ -f "$_asdf_data_dir/plugins/java/set-java-home.zsh" ]]; then
+if [[ -z "${JAVA_HOME:-}" && -f "$_asdf_data_dir/plugins/java/set-java-home.zsh" ]]; then
   source "$_asdf_data_dir/plugins/java/set-java-home.zsh"
   typeset -f asdf_update_java_home >/dev/null 2>&1 && asdf_update_java_home >/dev/null 2>&1
 fi

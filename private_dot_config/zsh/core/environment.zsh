@@ -101,6 +101,22 @@ for _nix_profile_dir in \
 done
 unset _nix_profile_dir
 
+# Maven needs an explicit Java home. Derive it from the Nix-managed `java`
+# link so both interactive and non-interactive shells use the JDK 8 contract.
+_nix_java_bin="/etc/profiles/per-user/${USER:-$LOGNAME}/bin/java"
+if [[ -z "${JAVA_HOME:-}" && -x "$_nix_java_bin" ]]; then
+  _nix_java_real="$(readlink -f "$_nix_java_bin" 2>/dev/null || true)"
+  case "$_nix_java_real" in
+    */Library/Java/JavaVirtualMachines/*/Contents/Home/bin/java)
+      export JAVA_HOME="${_nix_java_real%/bin/java}"
+      ;;
+    */bin/java)
+      export JAVA_HOME="${_nix_java_real%/bin/java}"
+      ;;
+  esac
+fi
+unset _nix_java_bin _nix_java_real
+
 # Development
 export GITHUB_USERNAME=pppobear
 if [[ -f "$HOME/.ripgreprc" ]]; then
