@@ -18,6 +18,11 @@ docs/
 
 # Neovim config is managed by its own repository
 .config/nvim
+
+# Git config is managed by Home Manager on the migrated MacBook Pro.
+{{- if eq .chezmoi.hostname "enoch-mbp-3" }}
+.gitconfig
+{{- end }}
 {{- if ne .chezmoi.os "linux" }}
 .config/niri
 .config/rofi
