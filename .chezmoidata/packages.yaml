@@ -6,9 +6,6 @@ packages:
       cask:
         adopt: true
     formulae:
-      - lazygit
-      - llvm
-      - rbw
       - thefuck
     # Home Manager owns these on enoch-mbp-3. Keep installing them on Darwin
     # hosts that have not completed the Nix migration yet.
@@ -20,9 +17,12 @@ packages:
       - fd
       - fzf
       - gh
+      - lazygit
       - kubectl
+      - llvm
       - neovim
       - ripgrep
+      - rbw
       - sesh
       - tmux
       - tree
