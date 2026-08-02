@@ -84,6 +84,17 @@ fi
 _path_prepend "$HOME/bin"
 _path_prepend "$HOME/.local/bin"
 
+# Prefer the Nix user/system profiles for tools migrated to Home Manager.
+# Keep asdf shims ahead of them so Java/Maven continue to use the existing
+# runtime selection until that toolchain is migrated explicitly.
+for _nix_profile_dir in \
+  "/run/current-system/sw/bin" \
+  "/etc/profiles/per-user/${USER:-$LOGNAME}/bin" \
+  "$HOME/.nix-profile/bin"; do
+  [[ -d "$_nix_profile_dir" ]] && _path_prepend "$_nix_profile_dir"
+done
+unset _nix_profile_dir
+
 # asdf shims are needed in non-interactive shells too, so tools like Codex can
 # find java/maven without waiting for interactive .zshrc integrations.
 _asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
