@@ -7,11 +7,12 @@ if [[ "${__ZSH_ORBSTACK_LOADED:-}" != "$$" && -f "$HOME/.orbstack/shell/init.zsh
   typeset -g __ZSH_ORBSTACK_LOADED="$$"
 fi
 
-# asdf shims for login shells after /etc/zprofile path_helper resets PATH.
+# Keep asdf shims available as a fallback after /etc/zprofile path_helper
+# resets PATH; Nix-managed commands must remain first.
 _asdf_data_dir="${ASDF_DATA_DIR:-$HOME/.asdf}"
 if [[ -d "$_asdf_data_dir/shims" ]]; then
   path=("${(@)path:#$_asdf_data_dir/shims}")
-  path=("$_asdf_data_dir/shims" $path)
+  path+=("$_asdf_data_dir/shims")
 fi
 if [[ -z "${JAVA_HOME:-}" && -f "$_asdf_data_dir/plugins/java/set-java-home.zsh" ]]; then
   source "$_asdf_data_dir/plugins/java/set-java-home.zsh"

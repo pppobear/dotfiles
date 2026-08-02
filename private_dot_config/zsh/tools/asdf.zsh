@@ -32,6 +32,40 @@ if command -v asdf >/dev/null 2>&1; then
   fi
   unset _asdf_java_home_hook
 
+  # asdf shell setup can prepend its shims after the core environment ran.
+  # Restore Nix precedence before deciding whether any compatibility wrapper
+  # is needed.
+  _asdf_shims_dir="${ASDF_DATA_DIR}/shims"
+  if [[ -d "$_asdf_shims_dir" ]]; then
+    path=("${(@)path:#$_asdf_shims_dir}")
+    path+=("$_asdf_shims_dir")
+  fi
+  for _nix_profile_dir in \
+    "/run/current-system/sw/bin" \
+    "/etc/profiles/per-user/${USER:-$LOGNAME}/bin" \
+    "$HOME/.nix-profile/bin"; do
+    [[ -d "$_nix_profile_dir" ]] || continue
+    path=("${(@)path:#$_nix_profile_dir}")
+    path=("$_nix_profile_dir" $path)
+  done
+  unset _asdf_shims_dir _nix_profile_dir
+
+  _asdf_java_root="${ASDF_DATA_DIR}/installs/java/"
+  if [[ "${JAVA_HOME:-}" == "$_asdf_java_root"* ]]; then
+    unset JAVA_HOME
+  fi
+  unset _asdf_java_root
+  _nix_java_bin="/etc/profiles/per-user/${USER:-$LOGNAME}/bin/java"
+  if [[ -z "${JAVA_HOME:-}" && -x "$_nix_java_bin" ]]; then
+    _nix_java_real="$(readlink -f "$_nix_java_bin" 2>/dev/null || true)"
+    case "$_nix_java_real" in
+      */Library/Java/JavaVirtualMachines/*/Contents/Home/bin/java|*/bin/java)
+        export JAVA_HOME="${_nix_java_real%/bin/java}"
+        ;;
+    esac
+  fi
+  unset _nix_java_bin _nix_java_real
+
   # Cache completion
   _asdf_completion="${ZDOTDIR:-$HOME/.config/zsh}/.asdf_completion"
   if [[ ! -f "$_asdf_completion" ]] || [[ $(find "$_asdf_completion" -mtime +7 2>/dev/null) ]]; then
@@ -47,7 +81,8 @@ if command -v asdf >/dev/null 2>&1; then
   }
 
   for _asdf_java_cmd in java javac jar jshell mvn gradle; do
-    if command -v "$_asdf_java_cmd" >/dev/null 2>&1; then
+    _asdf_java_cmd_path="$(whence -p "$_asdf_java_cmd" 2>/dev/null || true)"
+    if [[ "$_asdf_java_cmd_path" == "${ASDF_DATA_DIR}/shims/"* ]]; then
       eval "
 ${_asdf_java_cmd}() {
   unset -f ${_asdf_java_cmd}
@@ -57,7 +92,7 @@ ${_asdf_java_cmd}() {
 "
     fi
   done
-  unset _asdf_java_cmd
+  unset _asdf_java_cmd _asdf_java_cmd_path
 fi
 
 unset _asdf_data_dir

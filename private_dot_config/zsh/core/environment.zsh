@@ -103,6 +103,11 @@ unset _nix_profile_dir
 
 # Maven needs an explicit Java home. Derive it from the Nix-managed `java`
 # link so both interactive and non-interactive shells use the JDK 8 contract.
+_asdf_java_root="${ASDF_DATA_DIR:-$HOME/.asdf}/installs/java/"
+if [[ "${JAVA_HOME:-}" == "$_asdf_java_root"* ]]; then
+  unset JAVA_HOME
+fi
+unset _asdf_java_root
 _nix_java_bin="/etc/profiles/per-user/${USER:-$LOGNAME}/bin/java"
 if [[ -z "${JAVA_HOME:-}" && -x "$_nix_java_bin" ]]; then
   _nix_java_real="$(readlink -f "$_nix_java_bin" 2>/dev/null || true)"
