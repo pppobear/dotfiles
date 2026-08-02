@@ -9,7 +9,7 @@
   <array>
     <string>/bin/sh</string>
     <string>-lc</string>
-    <string>exec "$HOME/.local/bin/rbw-sync-ssh-auth-sock"</string>
+    <string>exec /bin/sh "$HOME/.local/bin/rbw-sync-ssh-auth-sock"</string>
   </array>
 
   <key>RunAtLoad</key>

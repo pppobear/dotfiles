@@ -22,6 +22,9 @@ docs/
 # Git config is managed by Home Manager on the migrated MacBook Pro.
 {{- if eq .chezmoi.hostname "enoch-mbp-3" }}
 .gitconfig
+.ssh/config
+Library/LaunchAgents/com.enoch.rbw-ssh-auth-sock.plist
+.local/bin/rbw-sync-ssh-auth-sock
 {{- end }}
 {{- if ne .chezmoi.os "linux" }}
 .config/niri

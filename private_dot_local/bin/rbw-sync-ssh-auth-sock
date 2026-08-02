@@ -2,7 +2,13 @@
 set -eu
 
 uid="$(id -u)"
-rbw_tmp_base="${TMPDIR:-/tmp}"
+if [ -n "${TMPDIR:-}" ]; then
+  rbw_tmp_base="$TMPDIR"
+elif rbw_tmp_base="$(getconf DARWIN_USER_TEMP_DIR 2>/dev/null)"; then
+  :
+else
+  rbw_tmp_base="/tmp"
+fi
 current="${SSH_AUTH_SOCK:-}"
 
 find_sock() {
