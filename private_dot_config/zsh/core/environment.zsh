@@ -122,6 +122,13 @@ if [[ -z "${JAVA_HOME:-}" && -x "$_nix_java_bin" ]]; then
 fi
 unset _nix_java_bin _nix_java_real
 
+# JDTLS requires Java 21+, while the default Java/Maven contract remains Java 8.
+_nix_jdtls_java_home="$HOME/.local/share/jdk21"
+if [[ -x "$_nix_jdtls_java_home/bin/java" ]]; then
+  export JDTLS_JAVA_HOME="$_nix_jdtls_java_home"
+fi
+unset _nix_jdtls_java_home
+
 # Development
 export GITHUB_USERNAME=pppobear
 if [[ -f "$HOME/.ripgreprc" ]]; then

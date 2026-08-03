@@ -49,7 +49,7 @@
     "pi-wn": {
       "default_model": "openai-codex/gpt-5.5",
       "type": "custom",
-      "command": "/Users/enoch/.asdf/installs/nodejs/25.8.1/bin/pi-acp",
+      "command": "/etc/profiles/per-user/enoch/bin/pi-acp",
       "env": {
         "PI_CODING_AGENT_DIR": "/Users/enoch/.pi/agent-wn"
       }
@@ -57,7 +57,7 @@
     "pi-f": {
       "default_model": "openai-codex/gpt-5.4-mini",
       "type": "custom",
-      "command": "/Users/enoch/.asdf/installs/nodejs/25.8.1/bin/pi-acp",
+      "command": "/etc/profiles/per-user/enoch/bin/pi-acp",
       "env": {
         "PI_CODING_AGENT_DIR": "/Users/enoch/.pi/agent-f"
       }
@@ -143,15 +143,15 @@
   "lsp": {
     "jdtls": {
       "settings": {
-        "java_home": "/Users/enoch/.asdf/installs/java/zulu-21.46.19/zulu-21.jdk/Contents/Home",
+        "java_home": "/Users/enoch/.local/share/jdk21",
         "lombok_support": true,
-        "jdtls_launcher": "/Users/enoch/.local/bin/jdtls"
+        "jdtls_launcher": "/etc/profiles/per-user/enoch/bin/jdtls"
       },
       "initialization_options": {
         "bundles": [],
         "settings": {
           "java": {
-            "home": "/Users/enoch/.asdf/installs/java/zulu-21.46.19/zulu-21.jdk/Contents/Home",
+            "home": "/Users/enoch/.local/share/jdk21",
             "configuration": {
               "maven": {
                 "globalSettings": null,
