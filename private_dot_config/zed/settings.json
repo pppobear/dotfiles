@@ -43,7 +43,7 @@
     },
     "omp": {
       "type": "custom",
-      "command": "/Users/enoch/.bun/bin/omp",
+      "command": "/etc/profiles/per-user/enoch/bin/omp",
       "args": ["acp"]
     },
     "pi-wn": {

@@ -1,5 +1,6 @@
 {{- $archiveDefaults := .externals.archive_defaults -}}
 {{- $gitRepoDefaults := .externals.git_repo_defaults -}}
+{{- if ne .chezmoi.hostname "enoch-mbp-3" }}
 {{- range .externals.archives }}
 ["{{ .target }}"]
     type = "archive"
@@ -15,4 +16,5 @@
     url = "{{ .url }}"
     refreshPeriod = "{{- if hasKey . "refreshPeriod" }}{{ .refreshPeriod }}{{- else }}{{ $gitRepoDefaults.refreshPeriod }}{{- end }}"
 
+{{- end }}
 {{- end }}
