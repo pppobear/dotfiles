@@ -5,8 +5,7 @@ packages:
       max_attempts: 6
       cask:
         adopt: true
-    formulae:
-      - thefuck
+    formulae: []
     # Home Manager owns these on enoch-mbp-3. Keep installing them on Darwin
     # hosts that have not completed the Nix migration yet.
     nix_migrated_formulae:
@@ -58,7 +57,6 @@ packages:
         - lazygit
         - neovim
         - ripgrep
-        - thefuck
         - tmux
         - tree
         - zoxide
