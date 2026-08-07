@@ -13,9 +13,6 @@ model_reasoning_effort = "xhigh"
 mcp_oauth_credentials_store = "file"
 
 notify = ["/Users/enoch/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
-base_url = "http://127.0.0.1:15721/v1"
-wire_api = "responses"
-experimental_bearer_token = "PROXY_MANAGED"
 {{- if not (contains "[model_providers.apirouter]" $tail) }}
 
 [model_providers.apirouter]
